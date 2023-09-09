@@ -6,11 +6,11 @@ using TMPro;
 
 public class SettingsManager : MonoBehaviour
 {
-    public Slider masterVolumeSlider;
-    public Slider musicVolumeSlider;
-    public Slider sfxVolumeSlider;
-    public AudioMixer audioMixer;
-    public Toggle toggleSfxClickNote;
+    [SerializeField] private Slider _masterVolumeSlider;
+    [SerializeField] private Slider _musicVolumeSlider;
+    [SerializeField] private Slider _sfxVolumeSlider;
+    [SerializeField] private AudioMixer _audioMixer;
+    [SerializeField] private Toggle _toggleSfxClickNote;
 
     private void Start()
     {
@@ -56,49 +56,49 @@ public class SettingsManager : MonoBehaviour
 
     private void LoadMasterVolume()
     {
-        masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume");
+        _masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume");
     }
 
     private void LoadMusicVolume()
     {
-        musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        _musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
     }
 
     private void LoadSFXVolume()
     {
-        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        _sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume");
     }
 
     private void LoadSFXClickNote()
     {
         if (PlayerPrefs.GetString("SFXClickNote") == "On")
         {
-            toggleSfxClickNote.isOn = true;
+            _toggleSfxClickNote.isOn = true;
         }
         else
         {
-            toggleSfxClickNote.isOn = false;
+            _toggleSfxClickNote.isOn = false;
         }
     }
 
     private void SaveMasterVolume()
     {
-        PlayerPrefs.SetFloat("MasterVolume", masterVolumeSlider.value);
+        PlayerPrefs.SetFloat("MasterVolume", _masterVolumeSlider.value);
     }
 
     private void SaveMusicVolume()
     {
-        PlayerPrefs.SetFloat("MusicVolume", musicVolumeSlider.value);
+        PlayerPrefs.SetFloat("MusicVolume", _musicVolumeSlider.value);
     }
 
     private void SaveSFXVolume()
     {
-        PlayerPrefs.SetFloat("SFXVolume", sfxVolumeSlider.value);
+        PlayerPrefs.SetFloat("SFXVolume", _sfxVolumeSlider.value);
     }
 
     private void SaveSFXClickNote()
     {
-        if (toggleSfxClickNote.isOn)
+        if (_toggleSfxClickNote.isOn)
         {
             PlayerPrefs.SetString("SFXClickNote", "On");
         }
@@ -110,19 +110,19 @@ public class SettingsManager : MonoBehaviour
 
     public void ChangeMasterVolume()
     {
-        audioMixer.SetFloat("MasterVolume", masterVolumeSlider.value);
+        _audioMixer.SetFloat("MasterVolume", _masterVolumeSlider.value);
         SaveMasterVolume();
     }
 
     public void ChangeMusicVolume()
     {
-        audioMixer.SetFloat("MusicVolume", musicVolumeSlider.value);
+        _audioMixer.SetFloat("MusicVolume", _musicVolumeSlider.value);
         SaveMusicVolume();
     }
 
     public void ChangeSFXVolume()
     {
-        audioMixer.SetFloat("SFXVolume", sfxVolumeSlider.value);
+        _audioMixer.SetFloat("SFXVolume", _sfxVolumeSlider.value);
         SaveSFXVolume();
     }
 
@@ -133,19 +133,19 @@ public class SettingsManager : MonoBehaviour
 
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("MasterVolume", volume);
+        _audioMixer.SetFloat("MasterVolume", volume);
         PlayerPrefs.SetFloat("MasterVolume", volume);
     }
 
     public void SetMusicVolume(float volume)
     {
-        audioMixer.SetFloat("MusicVolume", volume);
+        _audioMixer.SetFloat("MusicVolume", volume);
         PlayerPrefs.SetFloat("MusicVolume", volume);
     }
 
     public void SetSFXVolume(float volume)
     {
-        audioMixer.SetFloat("SFXVolume", volume);
+        _audioMixer.SetFloat("SFXVolume", volume);
         PlayerPrefs.SetFloat("SFXVolume", volume);
     }
 }

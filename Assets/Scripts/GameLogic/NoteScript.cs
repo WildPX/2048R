@@ -5,22 +5,22 @@ using UnityEngine.UI;
 
 public class NoteScript : MonoBehaviour
 {
-    public float originalTime { get; set; }
-    public bool isLocked { get; set; }
-    public bool isMoving { get; set; }
-    public float fixedTimeLength { get; set; }
+    public float OriginalTime { get; private set; }
+    public bool IsLocked { get; private set; }
+    public bool IsMoving { get; private set; }
+    public float FixedTimeLength { get; private set; }
 
-    private float elapsedTime;
+    private float _elapsedTime;
     //private float pauseStartTime;
 
-    private Image noteImage;
+    private Image _noteImage;
 
-    private Coroutine routine;
-    private Color startNoteColor = Color.white;
-    private Color endNoteColor = new Color(1f, 1f, 1f, 0f);
-    private Vector3 noteLocalPos = new Vector3(-750, 50, 0);
-    private Vector3 noteLocalPosEnd = new Vector3(750, 50, 0);
-    private Vector3 targetPosition = new Vector3(0, 50, 0);
+    private Coroutine _routine;
+    private Color _startNoteColor = Color.white;
+    private Color _endNoteColor = new Color(1f, 1f, 1f, 0f);
+    private Vector3 _noteLocalPos = new Vector3(-750, 50, 0);
+    private Vector3 _noteLocalPosEnd = new Vector3(750, 50, 0);
+    private Vector3 _targetPosition = new Vector3(0, 50, 0);
 
     //private float globalTime;
     //private float startTime;
@@ -36,11 +36,11 @@ public class NoteScript : MonoBehaviour
 
     private void InitializeVariables()
     {
-        isLocked = false;
-        isMoving = false;
-        transform.localPosition = noteLocalPos;
+        IsLocked = false;
+        IsMoving = false;
+        transform.localPosition = _noteLocalPos;
 
-        noteImage = GetComponent<Image>();
+        _noteImage = GetComponent<Image>();
         //startTime = Time.time;
         //pauseTime = 0f;
         //globalTime = Time.time - startTime;
@@ -48,65 +48,65 @@ public class NoteScript : MonoBehaviour
         //timeToHit = originalTime;
         //Debug.Log(originalTime);
         //Debug.Log(timeToHit);
-        elapsedTime = 0f;
+        _elapsedTime = 0f;
         //pauseStartTime = 0f;
     }
 
     private void Update()
     {
-        if (isLocked && routine != null)
+        if (IsLocked && _routine != null)
         {
-            StopCoroutine(routine);
-            routine = null;
+            StopCoroutine(_routine);
+            _routine = null;
         }
-        else if (!isLocked && !isMoving)
+        else if (!IsLocked && !IsMoving)
         {
-            routine = StartCoroutine(MoveNote());
+            _routine = StartCoroutine(MoveNote());
         }
     }
 
     private IEnumerator MoveNote()
     {
-        isMoving = true;
+        IsMoving = true;
 
         Vector3 startPos = transform.localPosition;
 
-        if (startPos.x < targetPosition.x)
+        if (startPos.x < _targetPosition.x)
         {
-            while (originalTime > fixedTimeLength)
+            while (OriginalTime > FixedTimeLength)
             {
-                originalTime -= Time.deltaTime;
+                OriginalTime -= Time.deltaTime;
                 yield return null;
             }
 
             //Debug.Log("Here");
-            while (transform.localPosition.x < targetPosition.x)
+            while (transform.localPosition.x < _targetPosition.x)
             {
-                float t = elapsedTime / originalTime;
+                float t = _elapsedTime / OriginalTime;
                 //globalTime = Time.time - startTime - pauseTime;
-                elapsedTime += Time.deltaTime;
-                transform.localPosition = Vector3.Lerp(noteLocalPos, targetPosition, t);
+                _elapsedTime += Time.deltaTime;
+                transform.localPosition = Vector3.Lerp(_noteLocalPos, _targetPosition, t);
                 //Debug.Log(transform.localPosition);
                 yield return null;
             }
 
             startPos = transform.localPosition;
-            elapsedTime = 0f;
+            _elapsedTime = 0f;
         }
 
         //Debug.Log("CYCLE LEFT");
 
-        Color currentColor = noteImage.color;
+        Color currentColor = _noteImage.color;
 
-        if (startPos.x >= targetPosition.x)
+        if (startPos.x >= _targetPosition.x)
         {
             //Debug.Log("Not here");
-            while (elapsedTime < fixedTimeLength)
+            while (_elapsedTime < FixedTimeLength)
             {
-                float t = elapsedTime / fixedTimeLength;
-                elapsedTime += Time.deltaTime;
-                transform.localPosition = Vector3.Lerp(targetPosition, noteLocalPosEnd, t);
-                noteImage.color = Color.Lerp(startNoteColor, endNoteColor, t);
+                float t = _elapsedTime / FixedTimeLength;
+                _elapsedTime += Time.deltaTime;
+                transform.localPosition = Vector3.Lerp(_targetPosition, _noteLocalPosEnd, t);
+                _noteImage.color = Color.Lerp(_startNoteColor, _endNoteColor, t);
                 yield return null;
             }
         }
@@ -114,20 +114,40 @@ public class NoteScript : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SetOriginalTime(float otime)
+    {
+        OriginalTime = otime;
+    }
+
+    public void SetLocked(bool state)
+    {
+        IsLocked = state;
+    }
+
+    public void SetFixedTimeLength(float time)
+    {
+        FixedTimeLength = time;
+    }
+
+    public void SetMoving(bool state)
+    {
+        IsMoving = state;
+    }
+
     //private IEnumerator MoveNoteToCenter()
     //{
-    //    isMoving = true;
+    //    IsMoving = true;
 
     //    float startTime = Time.time - pauseStartTime;
     //    float endTime = startTime + pauseDuration;
 
     //    Vector3 startPos = transform.localPosition;
-    //    elapsedTimeToCenter = 0f;
+    //    _elapsedTimeToCenter = 0f;
 
     //    while (Time.time < endTime)
     //    {
     //        float t = (Time.time - startTime) / (endTime - startTime);
-    //        transform.localPosition = Vector3.Lerp(startPos, targetPosition, t);
+    //        transform.localPosition = Vector3.Lerp(startPos, _targetPosition, t);
     //        yield return null;
     //    }
 
@@ -141,31 +161,31 @@ public class NoteScript : MonoBehaviour
 
     //    //while (timeCheck >= 0f)
     //    //{
-    //    //    float t = elapsedTimeToCenter / timeToHit;
-    //    //    transform.localPosition = Vector3.Lerp(startPos, targetPosition, t);
-    //    //    elapsedTimeToCenter += Time.deltaTime;
+    //    //    float t = _elapsedTimeToCenter / timeToHit;
+    //    //    transform.localPosition = Vector3.Lerp(startPos, _targetPosition, t);
+    //    //    _elapsedTimeToCenter += Time.deltaTime;
     //    //    timeCheck -= Time.deltaTime;
     //    //    yield return null;
     //    //}
 
-    //    transform.localPosition = targetPosition;
+    //    transform.localPosition = _targetPosition;
 
-    //    isMoving = false;
+    //    IsMoving = false;
     //}
 
     //private IEnumerator MoveNoteToEnd() 
     //{
-    //    isMoving = true;
+    //    IsMoving = true;
 
     //    Vector3 startPos = transform.localPosition;
     //    Image noteImage = GetComponent<Image>();
 
-    //    while (elapsedTimeToEnd < fixedTimeLength)
+    //    while (_elapsedTimeToEnd < fixedTimeLength)
     //    {
-    //        float t = elapsedTimeToEnd / fixedTimeLength;
-    //        transform.localPosition = Vector3.Lerp(startPos, noteLocalPosEnd, t);
-    //        noteImage.color = Color.Lerp(endNoteColor, startNoteColor, t);
-    //        elapsedTimeToEnd += Time.deltaTime;
+    //        float t = _elapsedTimeToEnd / fixedTimeLength;
+    //        transform.localPosition = Vector3.Lerp(startPos, _noteLocalPosEnd, t);
+    //        noteImage.color = Color.Lerp(_endNoteColor, startNoteColor, t);
+    //        _elapsedTimeToEnd += Time.deltaTime;
     //        yield return null;
     //    }
 

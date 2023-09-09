@@ -1434,6 +1434,7 @@ GameObject:
   - component: {fileID: 227096318}
   - component: {fileID: 227096317}
   - component: {fileID: 227096316}
+  - component: {fileID: 227096319}
   m_Layer: 5
   m_Name: ExitImage
   m_TagString: Untagged
@@ -1454,8 +1455,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 0
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1498,6 +1499,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &227096319
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227096315}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &229398104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,11 +2424,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6caa479c7242774e961adfaa7e7efd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
-  jsonPath: Maps/EtherDisco/EtherDiscoJson
-  sfxClickPlay: {fileID: 989251512}
-  fadeOutBackground: {fileID: 195401876}
-  sound: {fileID: 1302856984}
+  _mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
+  _jsonPath: Maps/EtherDisco/EtherDiscoJson
+  _sfxClickPlay: {fileID: 989251512}
+  _fadeOutBackground: {fileID: 195401876}
+  _sound: {fileID: 1302856984}
 --- !u!114 &389486835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8945,11 +8958,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6caa479c7242774e961adfaa7e7efd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
-  jsonPath: Maps/MakingClouds/MakingCloudsJson
-  sfxClickPlay: {fileID: 989251512}
-  fadeOutBackground: {fileID: 195401876}
-  sound: {fileID: 1302856984}
+  _mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
+  _jsonPath: Maps/MakingClouds/MakingCloudsJson
+  _sfxClickPlay: {fileID: 989251512}
+  _fadeOutBackground: {fileID: 195401876}
+  _sound: {fileID: 1302856984}
 --- !u!114 &1278453210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9598,14 +9611,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56d59e9be9d8a7418237bc93f9ed114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonFile: {fileID: 4900000, guid: bb3ead7c334509d44b06c9db8dd58fc2, type: 3}
-  RText: {fileID: 1667933338}
-  backgroundImage: {fileID: 1937146284}
-  aboutMenu: {fileID: 1704124536}
-  settingsMenu: {fileID: 998907881}
-  playMenu: {fileID: 533084889}
-  sfxClick: {fileID: 103130564}
-  sfxClickBack: {fileID: 1980562816}
+  _jsonFile: {fileID: 4900000, guid: bb3ead7c334509d44b06c9db8dd58fc2, type: 3}
+  _rText: {fileID: 1667933338}
+  _backgroundImage: {fileID: 1937146284}
+  _aboutMenu: {fileID: 1704124536}
+  _settingsMenu: {fileID: 998907881}
+  _playMenu: {fileID: 533084889}
+  _sfxClick: {fileID: 103130564}
+  _sfxClickBack: {fileID: 1980562816}
 --- !u!4 &1302856983
 Transform:
   m_ObjectHideFlags: 0
@@ -9729,11 +9742,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e9b890729a273d428f0b817ea4ff088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterVolumeSlider: {fileID: 958016799}
-  musicVolumeSlider: {fileID: 590773626}
-  sfxVolumeSlider: {fileID: 1723264357}
-  audioMixer: {fileID: 24100000, guid: 44fed78ee66fe2c4badb8735f20d5eb3, type: 2}
-  toggleSfxClickNote: {fileID: 340369357}
+  _masterVolumeSlider: {fileID: 958016799}
+  _musicVolumeSlider: {fileID: 590773626}
+  _sfxVolumeSlider: {fileID: 1723264357}
+  _audioMixer: {fileID: 24100000, guid: 44fed78ee66fe2c4badb8735f20d5eb3, type: 2}
+  _toggleSfxClickNote: {fileID: 340369357}
 --- !u!1 &1305601182
 GameObject:
   m_ObjectHideFlags: 0
@@ -10092,10 +10105,10 @@ RectTransform:
   - {fileID: 609489375}
   - {fileID: 896588273}
   - {fileID: 1573733619}
-  - {fileID: 227096318}
   - {fileID: 1704124537}
   - {fileID: 998907882}
   - {fileID: 533084890}
+  - {fileID: 227096318}
   - {fileID: 195401873}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10157,11 +10170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6caa479c7242774e961adfaa7e7efd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
-  jsonPath: Maps/SpazzmaticaPolka/SpazzmaticaPolkaJson
-  sfxClickPlay: {fileID: 989251512}
-  fadeOutBackground: {fileID: 195401876}
-  sound: {fileID: 1302856984}
+  _mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
+  _jsonPath: Maps/SpazzmaticaPolka/SpazzmaticaPolkaJson
+  _sfxClickPlay: {fileID: 989251512}
+  _fadeOutBackground: {fileID: 195401876}
+  _sound: {fileID: 1302856984}
 --- !u!114 &1402892702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11092,8 +11105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbe6d63a6b4c891429e9ce80a0194886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exitImage: {fileID: 227096316}
-  soundClip: {fileID: 1302856984}
+  _exitImage: {fileID: 227096319}
+  _soundClip: {fileID: 1302856984}
 --- !u!1 &1615632875
 GameObject:
   m_ObjectHideFlags: 0
@@ -12284,11 +12297,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6caa479c7242774e961adfaa7e7efd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
-  jsonPath: Maps/Chopsticks/ChopsticksJson
-  sfxClickPlay: {fileID: 989251512}
-  fadeOutBackground: {fileID: 195401876}
-  sound: {fileID: 1302856984}
+  _mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
+  _jsonPath: Maps/Chopsticks/ChopsticksJson
+  _sfxClickPlay: {fileID: 989251512}
+  _fadeOutBackground: {fileID: 195401876}
+  _sound: {fileID: 1302856984}
 --- !u!114 &1879494620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12977,11 +12990,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6caa479c7242774e961adfaa7e7efd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
-  jsonPath: Maps/Test/TestJson
-  sfxClickPlay: {fileID: 0}
-  fadeOutBackground: {fileID: 0}
-  sound: {fileID: 0}
+  _mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
+  _jsonPath: 
+  _sfxClickPlay: {fileID: 989251512}
+  _fadeOutBackground: {fileID: 195401876}
+  _sound: {fileID: 1302856984}
 --- !u!114 &1939225705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13336,11 +13349,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6caa479c7242774e961adfaa7e7efd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
-  jsonPath: Maps/Presidenator/PresidenatorJson
-  sfxClickPlay: {fileID: 989251512}
-  fadeOutBackground: {fileID: 195401876}
-  sound: {fileID: 1302856984}
+  _mapDataPrefab: {fileID: 4539829976154913547, guid: 29f29c227b53d204688362b691dc584a, type: 3}
+  _jsonPath: Maps/Presidenator/PresidenatorJson
+  _sfxClickPlay: {fileID: 989251512}
+  _fadeOutBackground: {fileID: 195401876}
+  _sound: {fileID: 1302856984}
 --- !u!114 &1969457325
 MonoBehaviour:
   m_ObjectHideFlags: 0

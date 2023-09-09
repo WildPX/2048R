@@ -8,22 +8,23 @@ public class Tile : MonoBehaviour
     // State of the tile
     // TODO: change how states work. Maybe get rid of them?
     //public TileState state { get; private set; }
-    public Color backgroundColor { get; private set; }
-    public Color textColor { get; private set; }
-    public int number { get; private set; }
+    public Color BackgroundColor { get; private set; }
+    public Color TextColor { get; private set; }
+    public int Number { get; private set; }
+    public int PowerOfTwo { get; private set; }
     // Tile stands in this cell right now
-    public TileCell cell { get; private set; }
+    public TileCell Cell { get; private set; }
     // Is tile locked? Locked tiles can not be moved
-    public bool isLocked { get; set; }
+    public bool IsLocked { get; private set; }
 
-    private Image background;
-    private TextMeshProUGUI text;
-    private const float durationMoveAnimation = 0.1f;
+    private Image _background;
+    private TextMeshProUGUI _text;
+    private const float _durationMoveAnimation = 0.1f;
 
     private void Awake()
     {
-        background = GetComponent<Image>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        _background = GetComponent<Image>();
+        _text = GetComponentInChildren<TextMeshProUGUI>();
     }
     // Set state in this tile
     //public void SetState(TileState curState, int curNumber)
@@ -37,51 +38,51 @@ public class Tile : MonoBehaviour
     //}
     public void SetState(Color bgColor, Color tColor, int numValue)
     {
-        backgroundColor = bgColor;
-        textColor = tColor;
-        number = numValue;
+        BackgroundColor = bgColor;
+        TextColor = tColor;
+        Number = numValue;
 
-        background.color = backgroundColor;
-        text.color = textColor;
-        text.text = number.ToString();
+        _background.color = BackgroundColor;
+        _text.color = TextColor;
+        _text.text = Number.ToString();
     }
     // Spawn this tile
     public void Spawn(TileCell cell)
     {
-        if (this.cell != null)
+        if (this.Cell != null)
         {
-            this.cell.tile = null;
+            this.Cell.SetTile(null);
         }
 
-        this.cell = cell;
-        this.cell.tile = this;
+        this.Cell = cell;
+        this.Cell.SetTile(this);
 
         transform.position = cell.transform.position;
     }
     // Move this tile to that 'cell'
     public void MoveTo(TileCell cell)
     {
-        if (this.cell != null)
+        if (this.Cell != null)
         {
-            this.cell.tile = null;
+            this.Cell.SetTile(null);
         }
 
-        this.cell = cell;
-        this.cell.tile = this;
+        this.Cell = cell;
+        this.Cell.SetTile(this);
 
         StartCoroutine(MoveAnimation(cell.transform.position, false));
     }
     // Merge this tile with the other tile that stands on that 'cell'
     public void Merge(TileCell cell)
     {
-        if (this.cell != null)
+        if (this.Cell != null)
         {
-            this.cell.tile = null;
+            this.Cell.SetTile(null);
         }
 
-        this.cell = null;
+        this.Cell = null;
 
-        cell.tile.isLocked = true;
+        cell.ThisTile.IsLocked = true;
         //StartCoroutine(MoveAnimation(cell.transform.position, true));
         StartCoroutine(MoveAnimation(cell.transform.position, true));
     }
@@ -113,13 +114,13 @@ public class Tile : MonoBehaviour
     private IEnumerator MoveAnimation(Vector3 target, bool isMerging)
     {
         float startTime = Time.time;
-        float endTime = startTime + durationMoveAnimation;
+        float endTime = startTime + _durationMoveAnimation;
 
         Vector3 current = transform.position;
 
         while(Time.time < endTime)
         {
-            float t = (Time.time - startTime) / durationMoveAnimation;
+            float t = (Time.time - startTime) / _durationMoveAnimation;
             transform.position = Vector3.Lerp(current, target, t);
             yield return null;
         }
@@ -130,5 +131,10 @@ public class Tile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetLocked(bool state)
+    {
+        IsLocked = state;
     }
 }

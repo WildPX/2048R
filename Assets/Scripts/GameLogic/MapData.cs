@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MapData : MonoBehaviour 
 {
-    public string jsonContentPath;
+    public string JsonContentPath { get; private set; }
     public MapDataConfig DataConfig { get; private set; }
 
     private void Start()
@@ -13,16 +13,21 @@ public class MapData : MonoBehaviour
 
     private void LoadMapData()
     {
-        TextAsset jsonContent = Resources.Load<TextAsset>(jsonContentPath);
+        TextAsset jsonContent = Resources.Load<TextAsset>(JsonContentPath);
 
         if (jsonContent == null)
         {
-            Debug.LogError("Failed to load JSON file: " + jsonContentPath);
+            Debug.LogError("Failed to load JSON file: " + JsonContentPath);
             return;
         }
 
         DataConfig = JsonUtility.FromJson<MapDataConfig>(jsonContent.text);
         //mapDataConfig.Print();
+    }
+
+    public void SetJsonContentPath(string path)
+    {
+        JsonContentPath = path;
     }
 }
 

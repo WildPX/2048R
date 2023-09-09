@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class TileState : ScriptableObject
 {
-    public Color backgroundColor;
-    public Color textColor;
+    [SerializeField] private Color backgroundColor;
+    [SerializeField] private Color textColor;
 }

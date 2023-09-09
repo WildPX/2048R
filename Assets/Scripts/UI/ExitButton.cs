@@ -5,20 +5,19 @@ using UnityEngine.UI;
 
 public class ExitButton : MonoBehaviour
 {
-    public Image exitImage;
-    public AudioSource soundClip;
+    [SerializeField] private CanvasGroup _exitImage;
+    [SerializeField] private AudioSource _soundClip;
 
-    private const float exitFadeout = 3f;
-    private Color startColor;
-    private Color endColor;
-    private float startVolume;
-    private const float endVolume = 0f;
+    private const float EXITFADEOUT = 3f;
+    private const float ENDVOLUME = 0f;
+    private float _startAlpha;
+    private const float ENDALPHA = 1f;
+    private float _startVolume;
 
     private void Awake()
     {
-        startColor = exitImage.color;
-        endColor = Color.black;
-        startVolume = soundClip.volume;
+        _startAlpha = _exitImage.alpha;
+        _startVolume = _soundClip.volume;
     }
 
     public void OnExitButton()
@@ -30,17 +29,19 @@ public class ExitButton : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        while (elapsedTime < exitFadeout)
+        _exitImage.blocksRaycasts = true;
+
+        while (elapsedTime < EXITFADEOUT)
         {
-            float t = elapsedTime / exitFadeout;
-            exitImage.color = Color.Lerp(startColor, endColor, t);
-            soundClip.volume = Mathf.Lerp(startVolume, endVolume, t);
+            float t = elapsedTime / EXITFADEOUT;
+            _exitImage.alpha = Mathf.Lerp(_startAlpha, ENDALPHA, t);
+            _soundClip.volume = Mathf.Lerp(_startVolume, ENDVOLUME, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        exitImage.color = endColor;
-        soundClip.volume = endVolume;
+        _exitImage.alpha = ENDALPHA;
+        _soundClip.volume = ENDVOLUME;
 
         Application.Quit();
     }

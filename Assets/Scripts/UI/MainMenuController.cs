@@ -6,23 +6,23 @@ using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
-    public TextAsset jsonFile;
-    public TextMeshProUGUI RText;
-    public Image backgroundImage;
-    public GameObject aboutMenu;
-    public GameObject settingsMenu;
-    public GameObject playMenu;
-    public AudioSource sfxClick;
-    public AudioSource sfxClickBack;
+    [SerializeField] private TextAsset _jsonFile;
+    [SerializeField] private TextMeshProUGUI _rText;
+    [SerializeField] private Image _backgroundImage;
+    [SerializeField] private GameObject _aboutMenu;
+    [SerializeField] private GameObject _settingsMenu;
+    [SerializeField] private GameObject _playMenu;
+    [SerializeField] private AudioSource _sfxClick;
+    [SerializeField] private AudioSource _sfxClickBack;
 
-    private const int frameRate = 60;
-    private GameObject currentMenu;
-    private BackgroundData backgroundData;
+    private const int FRAMERATE = 60;
+    private GameObject _currentMenu;
+    private _backgroundData _backgroundData;
 
-    private float softnessChangeDuration;
-    private bool frozenFlag;
-    private float startSoftness;
-    private float targetSoftness;
+    private float _softnessChangeDuration;
+    private bool _frozenFlag;
+    private float _startSoftness;
+    private float _targetSoftness;
 
     private void Awake()
     {
@@ -32,29 +32,29 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = frameRate;
-        StartCoroutine(RTextSoftnessChange());
+        Application.targetFrameRate = FRAMERATE;
+        StartCoroutine(_rTextSoftnessChange());
         CloseAllMenus();
     }
 
     private void InitializeVariables()
     {
-        softnessChangeDuration = 0.5f;
-        frozenFlag = false;
-        startSoftness = 0f;
-        targetSoftness = 0.5f;
+        _softnessChangeDuration = 0.5f;
+        _frozenFlag = false;
+        _startSoftness = 0f;
+        _targetSoftness = 0.5f;
     }
 
     private void LoadData()
     {
-        backgroundData = JsonUtility.FromJson<BackgroundData>(jsonFile.text);
-        BackgroundTheme randomTheme = backgroundData.backgroundTheme[Random.Range(0, backgroundData.backgroundTheme.Count)];
+        _backgroundData = JsonUtility.FromJson<_backgroundData>(_jsonFile.text);
+        BackgroundTheme randomTheme = _backgroundData.backgroundTheme[Random.Range(0, _backgroundData.backgroundTheme.Count)];
         string imagePath = randomTheme.imagePath;
         Sprite sprite = Resources.Load<Sprite>(imagePath);
 
         if (sprite != null)
         {
-            backgroundImage.sprite = sprite;
+            _backgroundImage.sprite = sprite;
         }
         else
         {
@@ -63,15 +63,15 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    private IEnumerator RTextSoftnessChange()
+    private IEnumerator _rTextSoftnessChange()
     {
-        while (!frozenFlag)
+        while (!_frozenFlag)
         {
             float elapsedTime = 0f;
-            while (elapsedTime < softnessChangeDuration)
+            while (elapsedTime < _softnessChangeDuration)
             {
-                float t = elapsedTime / softnessChangeDuration;
-                float softness = Mathf.Lerp(startSoftness, targetSoftness, t);
+                float t = elapsedTime / _softnessChangeDuration;
+                float softness = Mathf.Lerp(_startSoftness, _targetSoftness, t);
 
                 ModifyTextSoftness(softness);
 
@@ -79,54 +79,54 @@ public class MainMenuController : MonoBehaviour
                 yield return null;
             }
 
-            (startSoftness, targetSoftness) = (targetSoftness, startSoftness);
+            (_startSoftness, _targetSoftness) = (_targetSoftness, _startSoftness);
         }
     }
 
     private void ModifyTextSoftness(float softness)
     {
-        RText.fontSharedMaterial.SetFloat("_OutlineSoftness", softness);
+        _rText.fontSharedMaterial.SetFloat("_OutlineSoftness", softness);
     }
 
     public void OnAboutButton()
     {
-        if (currentMenu == aboutMenu)
+        if (_currentMenu == _aboutMenu)
         {
-            PlaySound(sfxClickBack);
+            PlaySound(_sfxClickBack);
             CloseMenu();
         }
         else
         {
-            PlaySound(sfxClick);
-            OpenMenu(aboutMenu);
+            PlaySound(_sfxClick);
+            OpenMenu(_aboutMenu);
         }
     }
 
     public void OnSettingsButton()
     {
-        if (currentMenu == settingsMenu)
+        if (_currentMenu == _settingsMenu)
         {
-            PlaySound(sfxClickBack);
+            PlaySound(_sfxClickBack);
             CloseMenu();
         }
         else
         {
-            PlaySound(sfxClick);
-            OpenMenu(settingsMenu);
+            PlaySound(_sfxClick);
+            OpenMenu(_settingsMenu);
         }
     }
 
     public void OnPlayButton()
     {
-        if (currentMenu == playMenu)
+        if (_currentMenu == _playMenu)
         {
-            PlaySound(sfxClickBack);
+            PlaySound(_sfxClickBack);
             CloseMenu();
         }
         else
         {
-            PlaySound(sfxClick);
-            OpenMenu(playMenu);
+            PlaySound(_sfxClick);
+            OpenMenu(_playMenu);
         }
     }
 
@@ -134,24 +134,24 @@ public class MainMenuController : MonoBehaviour
     {
         CloseMenu();
 
-        currentMenu = menu;
-        currentMenu.SetActive(true);
+        _currentMenu = menu;
+        _currentMenu.SetActive(true);
     }
 
     private void CloseMenu()
     {
-        if (currentMenu != null)
+        if (_currentMenu != null)
         {
-            currentMenu.SetActive(false);
-            currentMenu = null;
+            _currentMenu.SetActive(false);
+            _currentMenu = null;
         }
     }
 
     private void CloseAllMenus()
     {
-        aboutMenu.SetActive(false);
-        settingsMenu.SetActive(false);
-        playMenu.SetActive(false);
+        _aboutMenu.SetActive(false);
+        _settingsMenu.SetActive(false);
+        _playMenu.SetActive(false);
     }
 
     private void PlaySound(AudioSource source)
@@ -168,7 +168,7 @@ public class BackgroundTheme
 }
 
 [System.Serializable]
-public class BackgroundData
+public class _backgroundData
 {
     public List<BackgroundTheme> backgroundTheme;
 }

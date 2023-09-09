@@ -4,19 +4,19 @@ using UnityEngine.SceneManagement;
 
 public class PlayMapButtonScript : MonoBehaviour
 {
-    public GameObject mapDataPrefab;
-    public string jsonPath;
-    public AudioSource sfxClickPlay;
-    public CanvasGroup fadeOutBackground;
-    public AudioSource sound;
+    [SerializeField] private GameObject _mapDataPrefab;
+    [SerializeField] private string _jsonPath;
+    [SerializeField] private AudioSource _sfxClickPlay;
+    [SerializeField] private CanvasGroup _fadeOutBackground;
+    [SerializeField] private AudioSource _sound;
 
-    private const float fadeOutTimer = 1f;
+    private const float FADEOUT_TIMER = 1f;
 
     public void OnPlayMapButton()
     {
-        sfxClickPlay.Play();
-        GameObject mapData = Instantiate(mapDataPrefab);
-        mapData.GetComponent<MapData>().jsonContentPath = jsonPath;
+        _sfxClickPlay.Play();
+        GameObject mapData = Instantiate(_mapDataPrefab);
+        mapData.GetComponent<MapData>().SetJsonContentPath(_jsonPath);
         DontDestroyOnLoad(mapData);
         StartCoroutine(SoftLoad());
     }
@@ -24,21 +24,21 @@ public class PlayMapButtonScript : MonoBehaviour
     private IEnumerator SoftLoad()
     {
         float elapsedTime = 0f;
-        float startAlpha = fadeOutBackground.alpha;
-        float startVolume = sound.volume;
-        fadeOutBackground.blocksRaycasts = true;
+        float startAlpha = _fadeOutBackground.alpha;
+        float startVolume = _sound.volume;
+        _fadeOutBackground.blocksRaycasts = true;
         
-        while (elapsedTime < fadeOutTimer)
+        while (elapsedTime < FADEOUT_TIMER)
         {
-            float t = elapsedTime / fadeOutTimer;
-            fadeOutBackground.alpha = Mathf.Lerp(startAlpha, 1f, t);
-            sound.volume = Mathf.Lerp(startVolume, 0f, t);
+            float t = elapsedTime / FADEOUT_TIMER;
+            _fadeOutBackground.alpha = Mathf.Lerp(startAlpha, 1f, t);
+            _sound.volume = Mathf.Lerp(startVolume, 0f, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        fadeOutBackground.alpha = 1f;
-        sound.volume = 0f;
+        _fadeOutBackground.alpha = 1f;
+        _sound.volume = 0f;
 
         SceneManager.LoadScene("Game");
     }

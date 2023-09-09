@@ -6,177 +6,176 @@ using TMPro;
 
 public class RhythmController : MonoBehaviour
 {
+    #region UI_ELEMENTS
     // Group of text elements for showing best score for this song
-    public TextMeshProUGUI bestScoreText;
-    public TextMeshProUGUI bestScoreAccuracyText;
-    public TextMeshProUGUI bestScoreStreakText;
+    [SerializeField] private TextMeshProUGUI _bestScoreText;
+    [SerializeField] private TextMeshProUGUI _bestScoreAccuracyText;
+    [SerializeField] private TextMeshProUGUI _bestScoreStreakText;
     //public TextMeshProUGUI bestScoreRank;
     // Group of text elements for showing current score for this song
-    public TextMeshProUGUI currentScoreText;
-    public TextMeshProUGUI currentAccuracyText;
-    public TextMeshProUGUI currentComboText;
-    public TextMeshProUGUI currentBestComboText;
-    public TextMeshProUGUI currentQualityScoreText;
-    public TextMeshProUGUI qualityText;
-    public TextMeshProUGUI breakText;
+    [SerializeField] private TextMeshProUGUI _currentScoreText;
+    [SerializeField] private TextMeshProUGUI _currentAccuracyText;
+    [SerializeField] private TextMeshProUGUI _currentComboText;
+    [SerializeField] private TextMeshProUGUI _currentBestComboText;
+    [SerializeField] private TextMeshProUGUI _currentQualityScoreText;
+    [SerializeField] private TextMeshProUGUI _qualityText;
+    [SerializeField] private TextMeshProUGUI _breakText;
     // Starting screen
-    public CanvasGroup startScreen;
+    [SerializeField] private CanvasGroup _startScreen;
     // Ranking Screen
-    public CanvasGroup endingScreen;
+    [SerializeField] private CanvasGroup _endingScreen;
     //public TextMeshProUGUI endingScreenRank;
-    public TextMeshProUGUI endingScreenScore;
-    public TextMeshProUGUI endingScreenAccuracy;
-    public TextMeshProUGUI endingScreenStreak;
-    public TextMeshProUGUI endingScreenSongName;
-    public TextMeshProUGUI endingScreenArtistName;
-    public TextMeshProUGUI endingScreenNewRecord;
-    public TextMeshProUGUI endingScreenPerfect;
-    public TextMeshProUGUI endingScreenPerfectHits;
-    public TextMeshProUGUI endingScreenGoodHits;
-    public TextMeshProUGUI endingScreenBadHits;
-    public TextMeshProUGUI endingScreenMissHits;
+    [SerializeField] private TextMeshProUGUI _endingScreenScore;
+    [SerializeField] private TextMeshProUGUI _endingScreenAccuracy;
+    [SerializeField] private TextMeshProUGUI _endingScreenStreak;
+    [SerializeField] private TextMeshProUGUI _endingScreenSongName;
+    [SerializeField] private TextMeshProUGUI _endingScreenArtistName;
+    [SerializeField] private TextMeshProUGUI _endingScreenNewRecord;
+    [SerializeField] private TextMeshProUGUI _endingScreenPerfect;
+    [SerializeField] private TextMeshProUGUI _endingScreen_perfectHits;
+    [SerializeField] private TextMeshProUGUI _endingScreen_goodHits;
+    [SerializeField] private TextMeshProUGUI _endingScreen_badHits;
+    [SerializeField] private TextMeshProUGUI _endingScreen_missHits;
     // List of all gradients
-    public List<TMP_ColorGradient> endingScreenGradients;
-    public List<TMP_ColorGradient> qualityGradients;
+    [SerializeField] private List<TMP_ColorGradient> _endingScreenGradients;
+    [SerializeField] private List<TMP_ColorGradient> _qualityGradients;
     // List of all available ranks
-    private static readonly List<string> endingScreenRanks = new List<string> { "S", "A", "B", "C", "D", "F" };
+    //private static readonly List<string> endingScreenRanks = new List<string> { "S", "A", "B", "C", "D", "F" };
 
     // Song completion meter
-    public RectTransform songCompletionMeter;
+    [SerializeField] private RectTransform _songCompletionMeter;
     // For something
-    public RectTransform mainCanvas;
-    private float songCompletionIncrease;
-    private Vector2 songCompletionIncreaseVector2 = Vector2.zero;
+    [SerializeField] private RectTransform _mainCanvas;
+    private float _songCompletionIncrease;
+    private Vector2 _songCompletionIncreaseVector2 = Vector2.zero;
 
     // SFX
-    public AudioSource sfxClick;
+    [SerializeField] private AudioSource _sfxClick;
     //public AudioSource sfxClickNote;
 
     // Pause Screen
     // Button for pausing
-    public Button pauseButton;
-    public CanvasGroup pauseScreen;
-    public CanvasGroup fadeOutBackground;
+    // TODO CHANGE
+    public Button _pauseButton;
+    public CanvasGroup _pauseScreen;
+    public CanvasGroup _fadeOutBackground;
     //public Image startScreenBlackout;
     //public TextMeshProUGUI startScreenText;
     //private Color startScreenColor = Color.black;
     //private Color startScreenColorEnd = new Color(0f, 0f, 0f, 0f);
     //private Color startScreenColorTextEnd = new Color(1f, 1f, 1f, 0f);
 
+
     // Reference to board. Needed for logic elements
-    public TileBoard board;
+    [SerializeField] private TileBoard _board;
     // Used when beat frame is hit
-    public Image boardBorder;
+    [SerializeField] private Image _boardBorder;
     // Background of this song
-    public Image musicBackground;
+    [SerializeField] private Image _musicBackground;
     // Slider for showing current life of player
-    public Slider lifeSlider;
+    [SerializeField] private Slider _lifeSlider;
     // Container for data of this song
-    public MapDataConfig MapConfig { get; private set; }
+    private MapDataConfig _mapConfig;
     // Time Manager to track time
     public TimeManager TimeManagerGlobal { get; private set; }
     // Pause time
-    private float pauseStartTime;
+    private float _pauseStartTime;
     // Current music clip
-    private AudioSource audioSource;
+    private AudioSource _audioSource;
     // Note screen helper
     // Note
-    public RectTransform noteHitShow;
-    private float fixedLengthTime;
-    public GameObject notePrefab;
-    private Queue<GameObject> notes = new Queue<GameObject>();
-    private Color startNoteColor = new Color(1f, 1f, 1f, 0f);
-    private Color endNoteColor = Color.white;
+    [SerializeField] private RectTransform _noteHitShow;
+    private float _fixedLengthTime;
+    [SerializeField] private GameObject _notePrefab;
+    //private Queue<GameObject> notes = new Queue<GameObject>();
+    private Color _startNoteColor = new Color(1f, 1f, 1f, 0f);
+    private Color _endNoteColor = Color.white;
     // Note border. Should be lit when ideal hit is available
-    public Image idealNoteBorder;
+    [SerializeField] private Image _idealNoteBorder;
 
-    /// GAME LOGIC
-    // OVERALL
-    // Global timer
-    //private float globalTime;
-    // Current life
-    private float life;
-    // Decrease life this each time
-    private const float lifeDecreaseDuration = 0.1f;
+    // UI
+    // Colors used for board border
+    private Color _startAlpha = Color.white;
+    private Color _endAlpha = new Color(1f, 1f, 1f, 0f);
+    #endregion
+
+    #region GAME_LOGIC
+    // Decrease life this much time
+    private const float LIFE_DECREASE_DURATION = 0.1f;
     // Seconds to wait before start of the song
-    private const float delayBeforeStart = 3f;
+    private const float DELAY_BEFORE_START = 3f;
     // Seconds to wait before showing ranking screen
-    private const float delayBeforeEnd = 3f;
+    private const float DELAY_BEFORE_END = 3f;
     // Seconds to wait after the pause
-    private const float delayAfterPause = 1f;
+    private const float DELAY_AFTER_PAUSE = 1f;
     // Combo down multiplier
-    private const int comboBreakerMultiplier = 5;
+    private const int COMBOBREAKER_MULTIPLIER = 5;
+    // Current life
+    private float _life;
     // Check for starting screen (Get Ready!)
-    private bool isStarting;
+    private bool _isStarting;
     // Check if song is over with positive result
-    private bool isEnded;
+    private bool _isEnded;
     // Check if there's no more time stamps but the song is still playing
-    private bool isSongEnding;
+    private bool _isSongEnding;
     // Check if there is a pause
-    private bool isPaused;
+    private bool _isPaused;
     // workaround
-    private bool isUnpausing;
+    private bool _isUnpausing;
     // workaround
-    private bool isEnding;
+    private bool _isEnding;
     // Current beat frame
-    private float currentBeat;
+    private float _currentBeat;
     // Current beat frame index
-    private int currentBeatIndex;
-    // Limited frame rate
-    private const int fixedFrameRate = 60;
-    // Metrics
+    private int _currentBeatIndex;
+
+    // Beat processing
     // Current score
-    private int currentScore;
+    private int _currentScore;
     // Current streak
-    private int currentCombo;
+    private int _currentCombo;
     // Best combo
-    private int bestCombo;
+    private int _bestCombo;
     // Best combo, points
-    private int bestComboPoints;
+    private int _bestComboPoints;
     // Minimum combo for combo bonus to work
-    private const int bestComboMinimum = 5;
+    private const int BEST_COMBO_MINIMUM = 5;
     // Current accuracy metric
-    private float currentAccuracy;
+    private float _currentAccuracy;
+    // Music time in seconds
+    private int _musicTime;
+    // Used for comparing it and inputTime from tileboard. If numbers are different, there was input
+    private float _currentInputTime;
+    // User managed to hit note in the time of (currentBeat + missThreshold)
+    private bool _changeNote;
     // Current rank
     //private string currentRank;
-    // Music time in seconds
-    private int musicTime;
+    #endregion
 
-    // Hits 
-    // Used for comparing it and inputTime from tileboard. If numbers are different, there was input
-    private float currentInputTime;
-    // User managed to hit note in the time of (currentBeat + missThreshold)
-    private bool changeNote;
+    #region HITS_SYSTEM
+    // List of all game objects 'notes'
+    private GameObject[] _noteObjects;
 
-    /// Coroutines
-    private Coroutine decreaseLife;
-    private Coroutine borderOutlineBacklight;
-    private Coroutine comboBreakerRoutine;
-    //private Queue<Coroutine> noteBacklight = new Queue<Coroutine>();
-    //private Queue<Coroutine> noteToEnd = new Queue<Coroutine>();
+    // Hit system
+    private const float IDEAL_WEIGHT = 1.0f;
+    private const float GOOD_WEIGHT = 0.3f;
+    private const float BAD_WEIGHT = 0.16f;
+    private const float MISS_THRESHOLD = 0.2f;
+    private const float MISS_THRESHOLD_IDEAL = 0.05f;
+    private const float MISS_THRESHOLD_GOOD = 0.1f;
+    private const float MISS_THRESHOLD_BAD = 0.15f;
+    private int _perfectHits;
+    private int _goodHits;
+    private int _badHits;
+    private int _missHits;
+    private int _maxCombo;
+    #endregion
 
-    ///  GameObjects
-    //private List<GameObject> noteObjects = new List<GameObject>();
-    GameObject[] noteObjects;
-
-    // Metrics
-    private int perfectHits;
-    private int goodHits;
-    private int badHits;
-    private int missHits;
-    private const float idealWeight = 1.0f;
-    private const float goodWeight = 0.3f;
-    private const float badWeight = 0.16f;
-    private const float missThreshold = 0.2f;
-    private const float missThresholdIdeal = 0.05f;
-    private const float missThresholdGood = 0.1f;
-    private const float missThresholdBad = 0.15f;
-    private int maxCombo;
-
-    /// UI
-    // Colors used for board border
-    private Color startAlpha = Color.white;
-    private Color endAlpha = new Color(1f, 1f, 1f, 0f);
+    #region COROUTINES
+    private Coroutine _decreaseLife;
+    private Coroutine _borderOutlineBacklight;
+    private Coroutine _comboBreakerRoutine;
+    #endregion
 
     private void Awake()
     {
@@ -191,28 +190,33 @@ public class RhythmController : MonoBehaviour
         LoadMusicData();
         StartCoroutine(StartGame());
     }
-    // Function to start a new game. Updates and prepares the board
+    /// <summary>
+    /// Prepares the board for a new session.
+    /// </summary>
     public void NewGame()
     {
-        board.ClearBoard();
-        board.CreateTile();
-        board.CreateTile();
-        board.SetInputLock(false);
+        _board.ClearBoard();
+        _board.CreateTile();
+        _board.CreateTile();
+        _board.SetInputLock(false);
     }
-    // If game is ended. Check = won or lost
+    /// <summary>
+    /// Ends the game. Stops all coroutines, saves the best scores, if necessary.
+    /// </summary>
+    /// <param name="check">If true, player won. If false, player lost.</param>
     private void GameOver(bool check)
     {
-        isEnded = true;
-        isEnding = true;
-        pauseButton.gameObject.SetActive(false);
-        board.SetInputLock(true);
+        _isEnded = true;
+        _isEnding = true;
+        _pauseButton.gameObject.SetActive(false);
+        _board.SetInputLock(true);
 
         SetRankingScreenTexts();
 
         StartCoroutine(MusicFadeOut(check));
         StartCoroutine(RankScreenFadeIn());
-        StopCoroutine(borderOutlineBacklight);
-        StopCoroutine(decreaseLife);
+        StopCoroutine(_borderOutlineBacklight);
+        StopCoroutine(_decreaseLife);
 
         if (check)
         {
@@ -224,57 +228,57 @@ public class RhythmController : MonoBehaviour
     {
         //Debug.Log(Time.fixedDeltaTime);
         // Complete the completition meter
-        if (isEnded && isEnding)
+        if (_isEnded && _isEnding)
         {
             UpdateSongCompletionMeter();
         }
 
         // If the game is paused, unpausing or ending => do not use Update()
-        if (isStarting || isUnpausing || isEnding)
+        if (_isStarting || _isUnpausing || _isEnding)
         {
             return;
         }
 
         // If time stamps are over but the song is not
-        if (isSongEnding)
+        if (_isSongEnding)
         {
             TimeManagerGlobal.IncreaseGlobalTime();
             UpdateSongCompletionMeter();
             UpdateLifeMeter();
 
-            if (Mathf.Abs(TimeManagerGlobal.GetGlobalTime() - musicTime) <= delayBeforeEnd)
+            if (Mathf.Abs(TimeManagerGlobal.GetGlobalTime() - _musicTime) <= DELAY_BEFORE_END)
             {
-                isEnded = true;
-                isSongEnding = false;
+                _isEnded = true;
+                _isSongEnding = false;
             }
         }
         else
         {
             // If pause is activated
-            if (!isPaused && Input.GetKeyDown(KeyCode.Escape))
+            if (!_isPaused && Input.GetKeyDown(KeyCode.Escape))
             {
                 //Debug.Log("Pause");
-                isPaused = true;
+                _isPaused = true;
                 TogglePause(true);
             }
             // Unpause
-            else if (isPaused && Input.GetKeyDown(KeyCode.Escape))
+            else if (_isPaused && Input.GetKeyDown(KeyCode.Escape))
             {
                 //Debug.Log("Unpause");
-                isUnpausing = true;
+                _isUnpausing = true;
                 TogglePause(false);
             }
             // Song is in progress
-            if (!isEnded && !isPaused)
+            if (!_isEnded && !_isPaused)
             {
                 TimeManagerGlobal.IncreaseGlobalTime();
                 UpdateSongCompletionMeter();
                 UpdateLifeMeter();
 
                 // If player died or there is a 2048 game over
-                if (life <= 0 || board.GameOver)
+                if (_life <= 0 || _board.GameOver)
                 {
-                    board.SetInputLock(true);
+                    _board.SetInputLock(true);
                     GameOver(false);
                     return;
                 }
@@ -282,70 +286,79 @@ public class RhythmController : MonoBehaviour
                 ProcessInput(TimeManagerGlobal.GetGlobalTime());
             }
             // Song has ended
-            else if (isEnded)
+            else if (_isEnded)
             {
                 GameOver(true);
             }
         }
     }
 
-    // Update song completion meter
+    /// <summary>
+    /// Increases the song completion meter, that is in the background of the game.
+    /// Uses Time.deltaTime to transition further.
+    /// </summary>
     private void UpdateSongCompletionMeter()
     {
-        songCompletionIncreaseVector2.x = songCompletionIncrease * Time.deltaTime;
-        songCompletionMeter.sizeDelta += songCompletionIncreaseVector2;
+        _songCompletionIncreaseVector2.x = _songCompletionIncrease * Time.deltaTime;
+        _songCompletionMeter.sizeDelta += _songCompletionIncreaseVector2;
     }
-    // Update life meter
+    /// <summary>
+    /// Set new value in the _lifeSlider.
+    /// </summary>
     private void UpdateLifeMeter()
     {
-        lifeSlider.value = life;
+        _lifeSlider.value = _life;
     }
-    // Initialize all needed variables
+    /// <summary>
+    /// Initializes all the variables with default values. 
+    /// </summary>
     private void InitializeVariables()
     {
-        currentScore = 0;
-        currentCombo = 0;
-        bestCombo = 0;
-        bestComboPoints = 0;
-        currentAccuracy = 1f;
+        _currentScore = 0;
+        _currentCombo = 0;
+        _bestCombo = 0;
+        _bestComboPoints = 0;
+        _currentAccuracy = 1f;
         TimeManagerGlobal = new TimeManager();
-        pauseStartTime = 0f;
-        isStarting = true;
+        _pauseStartTime = 0f;
+        _isStarting = true;
         //godMode = false;
-        changeNote = false;
-        isPaused = false;
-        isEnded = false;
-        isEnding = false;
-        isUnpausing = false;
-        currentInputTime = 0f;
-        perfectHits = 0;
-        goodHits = 0;
-        badHits = 0;
-        missHits = 0;
-        life = 1f;
-        boardBorder.color = endAlpha;
-        audioSource = GetComponent<AudioSource>();
+        _changeNote = false;
+        _isPaused = false;
+        _isEnded = false;
+        _isEnding = false;
+        _isUnpausing = false;
+        _currentInputTime = 0f;
+        _perfectHits = 0;
+        _goodHits = 0;
+        _badHits = 0;
+        _missHits = 0;
+        _life = 1f;
+        _boardBorder.color = _endAlpha;
+        _audioSource = GetComponent<AudioSource>();
 
-        board.TMGlobal = TimeManagerGlobal;
+        _board.SetTimeManager(TimeManagerGlobal);
     }
-    // Coroutine for starting the game
+    /// <summary>
+    /// Before the player can play, we need to set multiple values. Start coroutines, sets the needed text in game objects.
+    /// </summary>
     private IEnumerator StartGame()
     {
         // Load data
         MusicDataLoad();
         MusicLoad();
-        LoadBestScores();
+        SetBestScoresTexts();
 
         // Soft increase in alpha channel of startScreen
         float elapsedTime = 0f;
-        while (elapsedTime < delayBeforeStart)
+        while (elapsedTime < DELAY_BEFORE_START)
         {
-            float t = elapsedTime / delayBeforeStart;
-            startScreen.alpha = Mathf.Lerp(1f, 0f, t);
+            float t = elapsedTime / DELAY_BEFORE_START;
+            _startScreen.alpha = Mathf.Lerp(1f, 0f, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        startScreen.alpha = 0f;
+        _startScreen.alpha = 0f;
 
         // Clear board, create tiles
         NewGame();
@@ -355,50 +368,55 @@ public class RhythmController : MonoBehaviour
         MusicPlay();
 
         // Start Coroutines
-        borderOutlineBacklight = StartCoroutine(SingleBorderOutlineBacklight());
+        _borderOutlineBacklight = StartCoroutine(SingleBorderOutlineBacklight());
         SpawnNote();
 
         // Damage to life every 0.1f seconds
-        decreaseLife = StartCoroutine(DecreaseLifeCoroutine());
+        _decreaseLife = StartCoroutine(DecreaseLifeCoroutine());
 
-        pauseButton.gameObject.SetActive(true);
+        _pauseButton.gameObject.SetActive(true);
 
-        isStarting = false;
+        _isStarting = false;
         //Debug.Log(TimeManagerGlobal.GetStartTime());
         //Debug.Log(TimeManagerGlobal.GetGlobalTime());
     }
-    // Coroutine for music fade out
+    /// <summary>
+    /// Before the end, music fades out.
+    /// </summary>
+    /// <param name="win">If player lost, pitch changes to zero.</param>
     private IEnumerator MusicFadeOut(bool win)
     {
         float elapsedTime = 0f;
-        float startVolume = audioSource.volume;
-        float startPitch = audioSource.pitch;
-        while (elapsedTime < delayBeforeEnd)
+        float startVolume = _audioSource.volume;
+        float startPitch = _audioSource.pitch;
+        while (elapsedTime < DELAY_BEFORE_END)
         {
-            float t = elapsedTime / delayBeforeEnd;
-            audioSource.volume = Mathf.Lerp(startVolume, 0f, t);
+            float t = elapsedTime / DELAY_BEFORE_END;
+            _audioSource.volume = Mathf.Lerp(startVolume, 0f, t);
             if (!win)
             {
-                audioSource.pitch = Mathf.Lerp(startPitch, 0f, t);
+                _audioSource.pitch = Mathf.Lerp(startPitch, 0f, t);
             }
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        audioSource.pitch = 0f;
+        _audioSource.pitch = 0f;
     }
-    // Load current JSON
+    /// <summary>
+    /// Load the needed data from JSON.
+    /// </summary>
     private void LoadMusicData()
     {
         var md = FindObjectOfType<MapData>();
 
         if (md != null)
         {
-            MapConfig = md.DataConfig;
-            if (MapConfig != null)
+            _mapConfig = md.DataConfig;
+            if (_mapConfig != null)
             {
-                currentBeatIndex = 0;
-                currentBeat = MapConfig.musicData.beatFrames[currentBeatIndex];
-                musicTime = MapConfig.musicData.time;
+                _currentBeatIndex = 0;
+                _currentBeat = _mapConfig.musicData.beatFrames[_currentBeatIndex];
+                _musicTime = _mapConfig.musicData.time;
             }
             else
             {
@@ -412,51 +430,64 @@ public class RhythmController : MonoBehaviour
 
         //Debug.Log(MapConfig.backgroundImagePath);
 
-        musicBackground.sprite = Resources.Load<Sprite>(MapConfig.backgroundImagePath);
+        _musicBackground.sprite = Resources.Load<Sprite>(_mapConfig.backgroundImagePath);
     }
-    // Load audio clip
+    /// <summary>
+    /// Load JSON with parameters for this map.
+    /// </summary>
     private void MusicLoad()
     {
-        audioSource.clip = Resources.Load<AudioClip>(MapConfig.audioPath);
+        _audioSource.clip = Resources.Load<AudioClip>(_mapConfig.audioPath);
     }
-    // Play audio clip
+    /// <summary>
+    /// Play music clip.
+    /// </summary>
     private void MusicPlay()
     {
-        audioSource.Play();
+        _audioSource.Play();
     }
-    // Pause audio clip
+    /// <summary>
+    /// Pause music clip.
+    /// </summary>
     private void MusicPause()
     {
-        audioSource.Pause();
+        _audioSource.Pause();
     }
-    // Load MusicData file where data is located
+    /// <summary>
+    /// Load data from JSON.
+    /// </summary>
     private void MusicDataLoad()
     {
-        endingScreenSongName.text = MapConfig.name;
-        endingScreenArtistName.text = MapConfig.artistName;
-        maxCombo = MapConfig.musicData.beatFrames.Count;
+        _endingScreenSongName.text = _mapConfig.name;
+        _endingScreenArtistName.text = _mapConfig.artistName;
+        _maxCombo = _mapConfig.musicData.beatFrames.Count;
 
-        fixedLengthTime = 60f / MapConfig.musicData.tempo;
+        _fixedLengthTime = 60f / _mapConfig.musicData.tempo;
         //Debug.Log(mainCanvas.sizeDelta.x);
-        songCompletionIncrease = mainCanvas.sizeDelta.x / MapConfig.musicData.time;
+        _songCompletionIncrease = _mainCanvas.sizeDelta.x / _mapConfig.musicData.time;
     }
-    // Process user input every frame
+    /// <summary>
+    /// Processes input. If time period for this beat ended or player pressed the button, check input.
+    /// </summary>
     private void ProcessInput(float globalTime)
     {
-        // If player managed to do input in needed frame or just pressed button in available direction
-        if (TimeManagerGlobal.CompareTimeGE(currentBeat + missThreshold) || currentInputTime < board.InputTime)
+        if (TimeManagerGlobal.CompareTimeGE(_currentBeat + MISS_THRESHOLD) || _currentInputTime < _board.InputTime)
         {
             CheckInput(globalTime);
         }
     }
-    // Check how good player managed to hit current frame
+    /// <summary>
+    /// Checks how good player hit this note. 
+    /// Calculates the scores by formula, increases or breaks the combo, 
+    /// changes current beat, if necessary.
+    /// </summary>
     private void CheckInput(float globalTime)
     {
         // Get input time from board
-        currentInputTime = board.InputTime;
+        _currentInputTime = _board.InputTime;
 
         // Check time difference between the time stamp and input time
-        float timeDifference = Mathf.Abs(currentInputTime - currentBeat);
+        float timeDifference = Mathf.Abs(_currentInputTime - _currentBeat);
         // String to write state
         string result;
 
@@ -476,45 +507,45 @@ public class RhythmController : MonoBehaviour
         // Main Check for quality of the current move
         if (timeDifference >= 0f)
         {
-            if (timeDifference <= missThresholdIdeal)
+            if (timeDifference <= MISS_THRESHOLD_IDEAL)
             {
                 result = "PERFECT!";
                 multiplier = 5;
                 changeHP = 0.25f;
-                currentCombo++;
-                if (currentCombo > bestCombo)
+                _currentCombo++;
+                if (_currentCombo > _bestCombo)
                 {
-                    bestCombo = currentCombo;
+                    _bestCombo = _currentCombo;
                     bestComboChanged = true;
                 }
-                perfectHits++;
+                _perfectHits++;
             }
-            else if (timeDifference <= missThresholdGood)
+            else if (timeDifference <= MISS_THRESHOLD_GOOD)
             {
                 result = "GOOD!";
                 multiplier = 2;
                 changeHP = 0.1f;
-                currentCombo++;
-                if (currentCombo > bestCombo)
+                _currentCombo++;
+                if (_currentCombo > _bestCombo)
                 {
-                    bestCombo = currentCombo;
+                    _bestCombo = _currentCombo;
                     bestComboChanged = true;
                 }
-                goodHits++;
+                _goodHits++;
             }
-            else if (timeDifference <= missThresholdBad)
+            else if (timeDifference <= MISS_THRESHOLD_BAD)
             {
                 result = "BAD!";
                 changeHP = -0.05f;
                 comboBreaker = true;
-                badHits++;
+                _badHits++;
             }
             else
             {
                 result = "MISS!";
                 multiplier = 0;
                 comboBreaker = true;
-                missHits++;
+                _missHits++;
             }
         }
         else
@@ -522,41 +553,41 @@ public class RhythmController : MonoBehaviour
             result = "MISS!";
             multiplier = 0;
             comboBreaker = true;
-            missHits++;
+            _missHits++;
         }
 
         // Formula for accuracy
-        currentAccuracy = 100 * (idealWeight * perfectHits + goodWeight * goodHits + badWeight * badHits) / (perfectHits + goodHits + badHits + missHits);
+        _currentAccuracy = 100 * (IDEAL_WEIGHT * _perfectHits + GOOD_WEIGHT * _goodHits + BAD_WEIGHT * _badHits) / (_perfectHits + _goodHits + _badHits + _missHits);
         //Debug.Log($"{result} {currentInputTime}, {currentBeat}: {timeDifference}");
         // Decrease or Increase life
         ChangeLife(changeHP);
 
         // Points to add
-        points = multiplier * board.CurrentMovePoints * board.NumberOfMerges;
+        points = multiplier * _board.CurrentMovePoints * _board.NumberOfMerges;
 
-        if (currentCombo >= bestComboMinimum && (comboBreaker || (bestComboPoints > 0 && currentBeatIndex == (maxCombo - 1))))
+        if (_currentCombo >= BEST_COMBO_MINIMUM && (comboBreaker || (_bestComboPoints > 0 && _currentBeatIndex == (_maxCombo - 1))))
         {
             if (!comboBreaker)
             {
-                bestComboPoints += board.CurrentMovePoints;
+                _bestComboPoints += _board.CurrentMovePoints;
             }
-            additionalPoints = bestComboPoints * (currentCombo / comboBreakerMultiplier + 1);
-            bestComboPoints = 0;
+            additionalPoints = _bestComboPoints * (_currentCombo / COMBOBREAKER_MULTIPLIER + 1);
+            _bestComboPoints = 0;
         }
         else
         {
             // Add to best combo points the number of 'clean' points
-            bestComboPoints += board.CurrentMovePoints;
+            _bestComboPoints += _board.CurrentMovePoints;
         }
 
         if (comboBreaker)
         {
-            currentCombo = 0;
+            _currentCombo = 0;
         }
 
         //Debug.Log($"{currentBeatIndex}:: P:{points}, AP:{additionalPoints}, BCP:{bestComboPoints}, x{currentCombo}, {result}");
 
-        SetCurrentTexts(points, result, currentCombo, currentAccuracy);
+        SetCurrentTexts(points, result, _currentCombo, _currentAccuracy);
 
         if (additionalPoints > 0)
         {
@@ -566,301 +597,361 @@ public class RhythmController : MonoBehaviour
 
         if (comboBreaker)
         {
-            comboBreakerRoutine = StartCoroutine(SetComboBreakerText());
+            _comboBreakerRoutine = StartCoroutine(SetComboBreakerText());
         }
 
         if (bestComboChanged)
         {
-            SetBestComboText(bestCombo);
+            SetBestComboText(_bestCombo);
         }
 
         IncreaseScore(points);
 
         // If input got through in a specific threshold (that is more than all of the hits thresholds)
-        if (timeDifference <= missThreshold)
+        if (timeDifference <= MISS_THRESHOLD)
         {
-            changeNote = true;
+            _changeNote = true;
         }
 
         // If there's a need in changing a current time stamp
-        if (Mathf.Approximately(globalTime, currentBeat + missThreshold) || globalTime >= currentBeat + missThreshold || changeNote)
+        if (Mathf.Approximately(globalTime, _currentBeat + MISS_THRESHOLD) || globalTime >= _currentBeat + MISS_THRESHOLD || _changeNote)
         {
             ProcessBeat();
         }
     }
-    // Change current time stamp to the next one
+    /// <summary>
+    /// Changes current beat, if necessary.
+    /// </summary>
     private void ProcessBeat()
     {
-        changeNote = false;
-        currentBeatIndex++;
+        _changeNote = false;
+        _currentBeatIndex++;
 
         // If there are no more time stamps
-        if (currentBeatIndex >= maxCombo)
+        if (_currentBeatIndex >= _maxCombo)
         {
-            if (Mathf.Abs(TimeManagerGlobal.GetGlobalTime() - musicTime) <= delayBeforeEnd)
+            if (Mathf.Abs(TimeManagerGlobal.GetGlobalTime() - _musicTime) <= DELAY_BEFORE_END)
             {
-                isEnded = true;
+                _isEnded = true;
             }
             // Time stamps are already ended, but the song is still going
             else
             {
-                isSongEnding = true;
-                board.SetInputLock(true);
-                StopCoroutine(decreaseLife);
-                decreaseLife = StartCoroutine(DecreaseLifeCoroutine(-0.001f));
+                _isSongEnding = true;
+                _board.SetInputLock(true);
+                StopCoroutine(_decreaseLife);
+                _decreaseLife = StartCoroutine(DecreaseLifeCoroutine(-0.001f));
             }
         }
         // Change beat
         else
         {
-            currentBeat = MapConfig.musicData.beatFrames[currentBeatIndex];
+            _currentBeat = _mapConfig.musicData.beatFrames[_currentBeatIndex];
             NextBeatCoroutines();
         }
     }
-    // Highlight the board on next time stamp and spawn next note
+    /// <summary>
+    /// Starts coroutines for the next beat
+    /// </summary>
     private void NextBeatCoroutines()
     {
-        borderOutlineBacklight = StartCoroutine(SingleBorderOutlineBacklight());
+        _borderOutlineBacklight = StartCoroutine(SingleBorderOutlineBacklight());
         SpawnNote();
     }
-    // Spawns note with the current time stamp
+    /// <summary>
+    /// Spawns note from prefab with current time stamp
+    /// </summary>
     private void SpawnNote()
     {
-        GameObject note = Instantiate(notePrefab, noteHitShow);
-        note.GetComponent<NoteScript>().originalTime = Mathf.Abs(currentBeat - TimeManagerGlobal.GetGlobalTime());
+        GameObject note = Instantiate(_notePrefab, _noteHitShow);
+        note.GetComponent<NoteScript>().SetOriginalTime(Mathf.Abs(_currentBeat - TimeManagerGlobal.GetGlobalTime()));
         //note.GetComponent<NoteScript>().originalTime = currentBeat;
-        note.GetComponent<NoteScript>().fixedTimeLength = fixedLengthTime;
+        note.GetComponent<NoteScript>().SetFixedTimeLength(_fixedLengthTime);
         //noteObjects.Add(note);
     }
-    // Kill all the notes that are outsise of the viewing area
-    //private void CheckNotes()
-    //{
-    //    for (int i = noteObjects.Count - 1; i >= 0; i--)
-    //    {
-    //        if (noteObjects[i] == null)
-    //            noteObjects.RemoveAt(i);
-    //    }
-    //}
-    // Highlight the board on time stamp
+    /// <summary>
+    /// Highlights the board on time stamp.
+    /// </summary>
     private IEnumerator SingleBorderOutlineBacklight()
     {
         // Alpha == 0
-        boardBorder.color = endAlpha;
-        idealNoteBorder.color = startNoteColor;
+        _boardBorder.color = _endAlpha;
+        _idealNoteBorder.color = _startNoteColor;
 
-        float timeDifference = Mathf.Abs(currentBeat - TimeManagerGlobal.GetGlobalTime());
+        float timeDifference = Mathf.Abs(_currentBeat - TimeManagerGlobal.GetGlobalTime());
         yield return new WaitForSeconds(timeDifference);
         float elapsedTime = 0f;
         // Soft decrease in alpha channel
-        while (elapsedTime < missThreshold)
+        while (elapsedTime < MISS_THRESHOLD)
         {
-            float t = elapsedTime / missThreshold;
-            boardBorder.color = Color.Lerp(startAlpha, endAlpha, t);
-            idealNoteBorder.color = Color.Lerp(endNoteColor, startNoteColor, t);
+            float t = elapsedTime / MISS_THRESHOLD;
+            _boardBorder.color = Color.Lerp(_startAlpha, _endAlpha, t);
+            _idealNoteBorder.color = Color.Lerp(_endNoteColor, _startNoteColor, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        boardBorder.color = endAlpha;
-        idealNoteBorder.color = startNoteColor;
+        _boardBorder.color = _endAlpha;
+        _idealNoteBorder.color = _startNoteColor;
     }
-    // Decrease life (standart)
+    /// <summary>
+    /// Decreases life by 0.005f (default value).
+    /// </summary>
     private IEnumerator DecreaseLifeCoroutine()
     {
-        while (!isEnded)
+        while (!_isEnded)
         {
             ChangeLife(-0.005f);
-            yield return new WaitForSeconds(lifeDecreaseDuration);
+            yield return new WaitForSeconds(LIFE_DECREASE_DURATION);
         }
     }
-    // Decrease life (with the value)
+    /// <summary>
+    /// Decreases life by value.
+    /// </summary>
+    /// <param name="value">Value on which life decreases.</param>
+    /// <returns></returns>
     private IEnumerator DecreaseLifeCoroutine(float value)
     {
-        while (!isEnded)
+        while (!_isEnded)
         {
             ChangeLife(value);
-            yield return new WaitForSeconds(lifeDecreaseDuration);
+            yield return new WaitForSeconds(LIFE_DECREASE_DURATION);
         }
     }
-    // Increase the number of points
+    /// <summary>
+    /// Increases current score.
+    /// </summary>
+    /// <param name="points">Adds this amount of points to the current score.</param>
     private void IncreaseScore(int points)
     {
-        currentScore += points;
-        currentScoreText.text = currentScore.ToString();
-        board.SetCurrentPoints(0);
+        _currentScore += points;
+        _currentScoreText.text = _currentScore.ToString();
+        _board.SetCurrentPoints(0);
     }
-    // Change current life
+    /// <summary>
+    /// Change life by value.
+    /// </summary>
+    /// <param name="value">Adds this value to the life.</param>
     private void ChangeLife(float value)
     {
-        life += value;
-        life = Mathf.Clamp01(life);
+        _life += value;
+        _life = Mathf.Clamp01(_life);
     }
-    // Save the current scores as the best ones if they are better than the previous
+    /// <summary>
+    /// Save current scores as the best, if they are better.
+    /// </summary>
     private void SaveBestScores()
     {
         int bestScore = LoadBestScore();
         //int bestRank = endingScreenRanks.IndexOf(LoadBestScoreRank());
 
-        if (missHits == 0 && goodHits == 0 && badHits == 0)
+        if (_missHits == 0 && _goodHits == 0 && _badHits == 0)
         {
-            endingScreenPerfect.gameObject.SetActive(true);
+            _endingScreenPerfect.gameObject.SetActive(true);
         }
 
-        if (currentScore >= bestScore)
+        if (_currentScore >= bestScore)
         {
-            PlayerPrefs.SetInt(MapConfig.name + "_BestScore", currentScore);
-            PlayerPrefs.SetFloat(MapConfig.name + "_BestScoreAccuracy", currentAccuracy);
-            PlayerPrefs.SetInt(MapConfig.name + "_BestScoreStreak", bestCombo);
-            endingScreenNewRecord.gameObject.SetActive(true);
+            PlayerPrefs.SetInt(_mapConfig.name + "_BestScore", _currentScore);
+            PlayerPrefs.SetFloat(_mapConfig.name + "_BestScoreAccuracy", _currentAccuracy);
+            PlayerPrefs.SetInt(_mapConfig.name + "_BestScoreStreak", _bestCombo);
+            _endingScreenNewRecord.gameObject.SetActive(true);
         }
     }
-    // Functions to Load previous best scores
+    /// <summary>
+    /// Load best score from PlayerPrefs.
+    /// </summary>
+    /// <returns>Best score from PlayerPrefs.</returns>
     private int LoadBestScore()
     {
-        return PlayerPrefs.GetInt(MapConfig.name + "_BestScore", 0);
+        return PlayerPrefs.GetInt(_mapConfig.name + "_BestScore", 0);
     }
-
+    /// <summary>
+    /// Load best accuracy from PlayerPrefs.
+    /// </summary>
+    /// <returns>Best accuracy from PlayerPrefs.</returns>
     private float LoadBestScoreAccuracy()
     {
-        return PlayerPrefs.GetFloat(MapConfig.name + "_BestScoreAccuracy", 0f);
+        return PlayerPrefs.GetFloat(_mapConfig.name + "_BestScoreAccuracy", 0f);
     }
-
+    /// <summary>
+    /// Load best combo from PlayerPrefs.
+    /// </summary>
+    /// <returns>Best combo from PlayerPrefs</returns>
     private int LoadBestScoreStreak()
     {
-        return PlayerPrefs.GetInt(MapConfig.name + "_BestScoreStreak", 0);
+        return PlayerPrefs.GetInt(_mapConfig.name + "_BestScoreStreak", 0);
     }
-
-    private void LoadBestScores()
+    /// <summary>
+    /// Set texts of best scores.
+    /// </summary>
+    private void SetBestScoresTexts()
     {
-        bestScoreText.text = LoadBestScore().ToString();
-        bestScoreAccuracyText.text = LoadBestScoreAccuracy().ToString("F2") + "%";
-        bestScoreStreakText.text = "X" + LoadBestScoreStreak().ToString();
+        _bestScoreText.text = LoadBestScore().ToString();
+        _bestScoreAccuracyText.text = LoadBestScoreAccuracy().ToString("F2") + "%";
+        _bestScoreStreakText.text = "X" + LoadBestScoreStreak().ToString();
     }
-    // Set current scores with new values
+    /// <summary>
+    /// Set current scores.
+    /// </summary>
+    /// <param name="qualityPoints">Points player got by hitting the note.</param>
+    /// <param name="result">Results of current hit of the note.</param>
+    /// <param name="curStreak">Current combo.</param>
+    /// <param name="accuracy">Current accuracy.</param>
     private void SetCurrentTexts(int qualityPoints, string result, int curStreak, float accuracy)
     {
         SetQualityPoints(qualityPoints);
         SetQualityText(result);
-        SetStreakText(curStreak);
+        SetComboText(curStreak);
         SetAccuracyText(accuracy);
     }
+    /// <summary>
+    /// Flashes the combo breaker text.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator SetComboBreakerText()
     {
         float elapsedTime = 0f;
-        breakText.alpha = 1f;
-        float startAlpha = breakText.alpha;
-        while (elapsedTime < fixedLengthTime)
+        _breakText.alpha = 1f;
+        float startAlpha = _breakText.alpha;
+        while (elapsedTime < _fixedLengthTime)
         {
-            float t = elapsedTime / fixedLengthTime;
-            breakText.alpha = Mathf.Lerp(startAlpha, 0f, t);
+            float t = elapsedTime / _fixedLengthTime;
+            _breakText.alpha = Mathf.Lerp(startAlpha, 0f, t);
             // !!
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        breakText.alpha = 0f;
+        _breakText.alpha = 0f;
     }
-    // Set quality points with new values
+    /// <summary>
+    /// Set quality points.
+    /// </summary>
+    /// <param name="points">Quality points to set.</param>
     private void SetQualityPoints(int points)
     {
-        currentQualityScoreText.text = points.ToString();
+        _currentQualityScoreText.text = points.ToString();
     }
+    /// <summary>
+    /// Set additional quality points.
+    /// </summary>
+    /// <param name="points">Additional quality points to set.</param>
     private void SetAdditionalQualityPoints(int points)
     {
-        currentQualityScoreText.text += $" + {points.ToString()}";
+        _currentQualityScoreText.text += $" + {points.ToString()}";
     }
-    // Paint the quality text
+    /// <summary>
+    /// Set gradients for quality text.
+    /// </summary>
+    /// <param name="result">Result of hitting current beat.</param>
     private void SetQualityText(string result)
     {
-        qualityText.text = result;
+        _qualityText.text = result;
         if (result == "PERFECT!")
         {
-            qualityText.colorGradientPreset = qualityGradients[0];
+            _qualityText.colorGradientPreset = _qualityGradients[0];
         }
         else if (result == "GOOD!")
         {
-            qualityText.colorGradientPreset = qualityGradients[1];
+            _qualityText.colorGradientPreset = _qualityGradients[1];
         }
         else if (result == "BAD!")
         {
-            qualityText.colorGradientPreset = qualityGradients[2];
+            _qualityText.colorGradientPreset = _qualityGradients[2];
         }
         else
         {
-            qualityText.colorGradientPreset = qualityGradients[3];
+            _qualityText.colorGradientPreset = _qualityGradients[3];
         }
     }
-
-    private void SetStreakText(int curStreak)
+    /// <summary>
+    /// Set current combo text.
+    /// </summary>
+    /// <param name="curStreak">Current combo.</param>
+    private void SetComboText(int curCombo)
     {
-        currentComboText.text = "X" + curStreak.ToString();
+        _currentComboText.text = "X" + curCombo.ToString();
     }
-
+    /// <summary>
+    /// Set current best combo text.
+    /// </summary>
+    /// <param name="curBestStreak">Current best combo.</param>
     private void SetBestComboText(int curBestStreak)
     {
-        currentBestComboText.text = "X" + curBestStreak.ToString();
+        _currentBestComboText.text = "X" + curBestStreak.ToString();
     }
-
+    /// <summary>
+    /// Set current accuracy text.
+    /// </summary>
+    /// <param name="accuracy">Current accuracy.</param>
     private void SetAccuracyText(float accuracy)
     {
-        currentAccuracyText.text = accuracy.ToString("F2") + "%";
+        _currentAccuracyText.text = accuracy.ToString("F2") + "%";
     }
-    // Set rankiing screen texts
+    /// <summary>
+    /// Set ranking screen texts. 
+    /// </summary>
     private void SetRankingScreenTexts()
     {
-        endingScreenScore.text = currentScore.ToString();
-        endingScreenAccuracy.text = currentAccuracy.ToString("F2") + "%";
-        endingScreenStreak.text = "X" + bestCombo.ToString();
-        endingScreenPerfectHits.text = perfectHits.ToString();
-        endingScreenGoodHits.text = goodHits.ToString();
-        endingScreenBadHits.text = badHits.ToString();
-        endingScreenMissHits.text = missHits.ToString();
+        _endingScreenScore.text = _currentScore.ToString();
+        _endingScreenAccuracy.text = _currentAccuracy.ToString("F2") + "%";
+        _endingScreenStreak.text = "X" + _bestCombo.ToString();
+        _endingScreen_perfectHits.text = _perfectHits.ToString();
+        _endingScreen_goodHits.text = _goodHits.ToString();
+        _endingScreen_badHits.text = _badHits.ToString();
+        _endingScreen_missHits.text = _missHits.ToString();
     }
-    // Coroutine to show the Rank Screen
+    /// <summary>
+    /// Fades in rank screen after there are no more beats or player lost.
+    /// </summary>
     private IEnumerator RankScreenFadeIn()
     {
         float elapsedTime = 0f;
-        float startAlpha = endingScreen.alpha;
-        while (elapsedTime < delayBeforeEnd)
+        float startAlpha = _endingScreen.alpha;
+        while (elapsedTime < DELAY_BEFORE_END)
         {
-            float t = elapsedTime / delayBeforeEnd;
-            endingScreen.alpha = Mathf.Lerp(startAlpha, 1f, t);
+            float t = elapsedTime / DELAY_BEFORE_END;
+            _endingScreen.alpha = Mathf.Lerp(startAlpha, 1f, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        endingScreen.interactable = true;
-        endingScreen.alpha = 1;
+        _endingScreen.interactable = true;
+        _endingScreen.alpha = 1;
     }
-    // Toggle pause / Stop time
+    /// <summary>
+    /// Toggle pause. Stop coroutines, stop notes from moving, pause music.
+    /// </summary>
+    /// <param name="check">Pause = true, unpause = false.</param>
     private void TogglePause(bool check)
     {
         // Set the ending screen unclickable
-        endingScreen.blocksRaycasts = !endingScreen.blocksRaycasts;
+        _endingScreen.blocksRaycasts = !_endingScreen.blocksRaycasts;
         if (check)
         {
-            pauseStartTime = Time.time;
-            pauseButton.gameObject.SetActive(false);
+            _pauseStartTime = Time.time;
+            _pauseButton.gameObject.SetActive(false);
             // Pause the music, stop all the coroutines, lock the board
             MusicPause();
-            StopCoroutine(decreaseLife);
-            StopCoroutine(borderOutlineBacklight);
-            if (comboBreakerRoutine != null)
+            StopCoroutine(_decreaseLife);
+            StopCoroutine(_borderOutlineBacklight);
+            if (_comboBreakerRoutine != null)
             {
-                StopCoroutine(comboBreakerRoutine);
+                StopCoroutine(_comboBreakerRoutine);
             }
             // Kill notes that are outside of the viewing board
             //CheckNotes();
-            noteObjects = GameObject.FindGameObjectsWithTag("Note");
-            foreach (GameObject note in noteObjects)
+            _noteObjects = GameObject.FindGameObjectsWithTag("Note");
+            foreach (GameObject note in _noteObjects)
             {
-                note.GetComponent<NoteScript>().isLocked = true;
-                note.GetComponent<NoteScript>().isMoving = false;
+                note.GetComponent<NoteScript>().SetLocked(true);
+                note.GetComponent<NoteScript>().SetMoving(false);
             }
-            board.SetInputLock(true);
+            _board.SetInputLock(true);
             // Set breaker text alpha to zero
-            breakText.alpha = 0f;
+            _breakText.alpha = 0f;
             // Let the player interact with pause screen
-            pauseScreen.alpha = 1f;
-            pauseScreen.interactable = true;
+            _pauseScreen.alpha = 1f;
+            _pauseScreen.interactable = true;
             //Debug.Log(pauseStartTime);
         }
         // Untoggle Pause
@@ -869,113 +960,148 @@ public class RhythmController : MonoBehaviour
             StartCoroutine(TurnOffPause());
         }
     }
-    // Coroutine to unpause
+    /// <summary>
+    /// Untoggle pause. Return player in the game, plays music from the pause and start coroutines.
+    /// </summary>
     private IEnumerator TurnOffPause()
     {
         // Soft transition to gameplay
         float elapsedTime = 0f;
-        float startAlpha = pauseScreen.alpha;
-        while (elapsedTime < delayAfterPause)
+        float startAlpha = _pauseScreen.alpha;
+        while (elapsedTime < DELAY_AFTER_PAUSE)
         {
-            float t = elapsedTime / delayAfterPause;
-            pauseScreen.alpha = Mathf.Lerp(startAlpha, 0f, t);
+            float t = elapsedTime / DELAY_AFTER_PAUSE;
+            _pauseScreen.alpha = Mathf.Lerp(startAlpha, 0f, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         // Lock the pause screen
-        pauseScreen.alpha = 0f;
-        pauseScreen.interactable = false;
+        _pauseScreen.alpha = 0f;
+        _pauseScreen.interactable = false;
         // Make the board interactable, uncheck the bool variables
-        board.SetInputLock(false);
-        isPaused = false;
-        isUnpausing = false;
+        _board.SetInputLock(false);
+        _isPaused = false;
+        _isUnpausing = false;
 
         MusicPlay();
 
         // Start all the coroutines
-        if (!isSongEnding)
+        if (!_isSongEnding)
         {
-            decreaseLife = StartCoroutine(DecreaseLifeCoroutine());
-            borderOutlineBacklight = StartCoroutine(SingleBorderOutlineBacklight());
-            foreach (GameObject note in noteObjects)
+            _decreaseLife = StartCoroutine(DecreaseLifeCoroutine());
+            _borderOutlineBacklight = StartCoroutine(SingleBorderOutlineBacklight());
+            foreach (GameObject note in _noteObjects)
             {
-                note.GetComponent<NoteScript>().isLocked = false;
+                note.GetComponent<NoteScript>().SetLocked(false);
             }
         }
 
-        TimeManagerGlobal.IncreasePauseTime(Time.time - pauseStartTime);
-        pauseStartTime = 0f;
+        TimeManagerGlobal.IncreasePauseTime(Time.time - _pauseStartTime);
+        _pauseStartTime = 0f;
         //Debug.Log(TimeManagerGlobal.GetPauseTime());
-        pauseButton.gameObject.SetActive(true);
+        _pauseButton.gameObject.SetActive(true);
     }
-    // workaround
+    /// <summary>
+    /// Unpausing state.
+    /// </summary>
     public void SetUnpause()
     {
-        isUnpausing = true;
+        _isUnpausing = true;
         TogglePause(false);
     }
-
+    /// <summary>
+    /// On pause button.
+    /// </summary>
     public void OnPauseButton()
     {
-        sfxClick.Play();
-        isPaused = true;
+        _sfxClick.Play();
+        _isPaused = true;
         TogglePause(true);
     }
-
+    /// <summary>
+    /// Set IsEnding state.
+    /// </summary>
+    /// <param name="state">State to set.</param>
     public void SetIsEnding(bool state)
     {
-        isEnding = state;
+        _isEnding = state;
     }
 }
 
-// Time manager to count ingame time on the board, not the actual real time
-// Useful so that the game will actually work
+/// <summary>
+/// Time manager to count ingame time on the board, not the actual real time.
+/// Useful so that the game will actually work.
+/// </summary>
 public class TimeManager
 {
     private float globalTime;
     private float startTime;
     private float pauseTime = 0f;
 
+    /// <summary>
+    /// Sets start time as current Time.time.
+    /// </summary>
     public void InitializeStartTime()
     {
         startTime = Time.time;
     }
-
+    /// <summary>
+    /// Sets global time as the difference between the current Time.time and startTime
+    /// </summary>
     public void InitializeGlobalTime()
     {
         globalTime = Time.time - startTime;
     }
-
+    /// <summary>
+    /// Return start time.
+    /// </summary>
     public float GetStartTime()
     {
         return startTime;
     }
-
+    /// <summary>
+    /// Returns global time.
+    /// </summary>
     public float GetGlobalTime()
     {
         return globalTime;
     }
-
+    /// <summary>
+    /// Returns pause time.
+    /// </summary>
     public float GetPauseTime()
     {
         return pauseTime;
     }
-
+    /// <summary>
+    /// Sets new value to global time.
+    /// </summary>
+    /// <param name="value">Value to set.</param>
     public void SetGlobalTime(float value)
     {
         globalTime = value;
     }
-
+    /// <summary>
+    /// Increases global time. 
+    /// It is the difference between current Time.time and startTime with pauseTime
+    /// </summary>
     public void IncreaseGlobalTime()
     {
         globalTime = Time.time - startTime - pauseTime;
     }
-
+    /// <summary>
+    /// Increases pause time by amount.
+    /// </summary>
+    /// <param name="time">Value to increase pause time by.</param>
     public void IncreasePauseTime(float time)
     {
         pauseTime += time;
     }
-
+    /// <summary>
+    /// Compare global time with the value. 
+    /// Returns true, if global time >= value. Otherwise returns false.
+    /// </summary>
+    /// <param name="value">Value to compare time to.</param>
     public bool CompareTimeGE(float value)
     {
         if (Mathf.Approximately(globalTime, value) || globalTime >= value)

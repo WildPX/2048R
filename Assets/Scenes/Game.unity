@@ -7625,54 +7625,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88cc0e792e00ace48a9fd747cd03f162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bestScoreText: {fileID: 746332772}
-  bestScoreAccuracyText: {fileID: 465537971}
-  bestScoreStreakText: {fileID: 1883268769}
-  currentScoreText: {fileID: 372278647}
-  currentAccuracyText: {fileID: 332812268}
-  currentComboText: {fileID: 2129414069}
-  currentBestComboText: {fileID: 697478367}
-  currentQualityScoreText: {fileID: 665025230}
-  qualityText: {fileID: 1921798428}
-  breakText: {fileID: 158308926}
-  startScreen: {fileID: 1791740638}
-  endingScreen: {fileID: 1029759246}
-  endingScreenScore: {fileID: 416126771}
-  endingScreenAccuracy: {fileID: 1933133047}
-  endingScreenStreak: {fileID: 1905186064}
-  endingScreenSongName: {fileID: 1077586185}
-  endingScreenArtistName: {fileID: 711547742}
-  endingScreenNewRecord: {fileID: 2021856951}
-  endingScreenPerfect: {fileID: 601464698}
-  endingScreenPerfectHits: {fileID: 817696370}
-  endingScreenGoodHits: {fileID: 124467757}
-  endingScreenBadHits: {fileID: 1159264845}
-  endingScreenMissHits: {fileID: 1288016565}
-  endingScreenGradients:
+  _bestScoreText: {fileID: 746332772}
+  _bestScoreAccuracyText: {fileID: 465537971}
+  _bestScoreStreakText: {fileID: 1883268769}
+  _currentScoreText: {fileID: 372278647}
+  _currentAccuracyText: {fileID: 332812268}
+  _currentComboText: {fileID: 2129414069}
+  _currentBestComboText: {fileID: 697478367}
+  _currentQualityScoreText: {fileID: 665025230}
+  _qualityText: {fileID: 1921798428}
+  _breakText: {fileID: 158308926}
+  _startScreen: {fileID: 1791740638}
+  _endingScreen: {fileID: 1029759246}
+  _endingScreenScore: {fileID: 416126771}
+  _endingScreenAccuracy: {fileID: 1933133047}
+  _endingScreenStreak: {fileID: 1905186064}
+  _endingScreenSongName: {fileID: 1077586185}
+  _endingScreenArtistName: {fileID: 711547742}
+  _endingScreenNewRecord: {fileID: 2021856951}
+  _endingScreenPerfect: {fileID: 601464698}
+  _endingScreen_perfectHits: {fileID: 817696370}
+  _endingScreen_goodHits: {fileID: 124467757}
+  _endingScreen_badHits: {fileID: 1159264845}
+  _endingScreen_missHits: {fileID: 1288016565}
+  _endingScreenGradients:
   - {fileID: 11400000, guid: 40bbe214d77b796428ae2eee8234ef23, type: 2}
   - {fileID: 11400000, guid: 6655c53394d044c41a2765623e09c4c0, type: 2}
   - {fileID: 11400000, guid: 034e418b55e9f054494ccdcd7266fff4, type: 2}
   - {fileID: 11400000, guid: b1a33a84c8e1ece4f9f4dc2a63d96a25, type: 2}
   - {fileID: 11400000, guid: 7754af04d6c7bfc428f03b10dffcff4c, type: 2}
   - {fileID: 11400000, guid: 5010b38e33ad92c49ac941499c6c3b1c, type: 2}
-  qualityGradients:
+  _qualityGradients:
   - {fileID: 11400000, guid: 235581bc0bdb9dd479cc206975ee5a48, type: 2}
   - {fileID: 11400000, guid: 1e5947bd04f3e5848ad38920f606a445, type: 2}
   - {fileID: 11400000, guid: 19a62fe6588863841876124a7c28f476, type: 2}
   - {fileID: 11400000, guid: 29fc4c9dd34d22148b4322c50f367299, type: 2}
-  songCompletionMeter: {fileID: 2095912958}
-  mainCanvas: {fileID: 735062076}
-  sfxClick: {fileID: 632729158}
-  pauseButton: {fileID: 80581036}
-  pauseScreen: {fileID: 593967657}
-  fadeOutBackground: {fileID: 372679300}
-  board: {fileID: 742883917}
-  boardBorder: {fileID: 1665867412}
-  musicBackground: {fileID: 1785760147}
-  lifeSlider: {fileID: 935647487}
-  noteHitShow: {fileID: 957055888}
-  notePrefab: {fileID: 1807138879799597037, guid: daf08b314a584d2419fda25c6e6ee231, type: 3}
-  idealNoteBorder: {fileID: 257125381}
+  _songCompletionMeter: {fileID: 2095912958}
+  _mainCanvas: {fileID: 735062076}
+  _sfxClick: {fileID: 0}
+  _pauseButton: {fileID: 80581036}
+  _pauseScreen: {fileID: 593967657}
+  _fadeOutBackground: {fileID: 372679300}
+  _board: {fileID: 742883917}
+  _boardBorder: {fileID: 1665867412}
+  _musicBackground: {fileID: 1785760147}
+  _lifeSlider: {fileID: 935647487}
+  _noteHitShow: {fileID: 957055888}
+  _notePrefab: {fileID: 1807138879799597037, guid: daf08b314a584d2419fda25c6e6ee231, type: 3}
+  _idealNoteBorder: {fileID: 257125381}
 --- !u!114 &1454986936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10842,7 +10842,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4df7fa012fe2ca74eb39a25f74ced36b, type: 2}
     - target: {fileID: 5109033155431800388, guid: f6d8939aaae97314b86e022e0c6afeb7, type: 3}
+      propertyPath: _tilePrefab
+      value: 
+      objectReference: {fileID: 9055825302940187974, guid: a1f931871a07a8d45a4f86d3b7d174c1, type: 3}
+    - target: {fileID: 5109033155431800388, guid: f6d8939aaae97314b86e022e0c6afeb7, type: 3}
+      propertyPath: _tileStates
+      value: 
+      objectReference: {fileID: 11400000, guid: 4df7fa012fe2ca74eb39a25f74ced36b, type: 2}
+    - target: {fileID: 5109033155431800388, guid: f6d8939aaae97314b86e022e0c6afeb7, type: 3}
       propertyPath: sfxClickNote
+      value: 
+      objectReference: {fileID: 731397462}
+    - target: {fileID: 5109033155431800388, guid: f6d8939aaae97314b86e022e0c6afeb7, type: 3}
+      propertyPath: _sfxClickNote
       value: 
       objectReference: {fileID: 731397462}
     - target: {fileID: 5109033155431800388, guid: f6d8939aaae97314b86e022e0c6afeb7, type: 3}

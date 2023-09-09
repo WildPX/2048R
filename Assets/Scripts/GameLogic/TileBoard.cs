@@ -7,29 +7,29 @@ public class TileBoard : MonoBehaviour
     // This canvas
     //public Canvas canvas;
     // Tile prefab
-    public Tile tilePrefab;
+    [SerializeField] private Tile _tilePrefab;
 
 
     // List of tile states
     // TODO: change states or remove them
     // MAYBE INSTEAD OF TILE STATES I CAN DO STATE WITH ALL OF THE NUMBERS AND COLORS?
     //public TileState[] tileStates;
-    public TileStates tileStates;
+    [SerializeField] private TileStates _tileStates;
     // Number of tiles. Can be changed if necessary
     //public int numberOfTiles = 16; // default value
 
-    public bool GameOver { get; set; }
+    public bool GameOver { get; private set; }
 
     // Logic for swipes with mouse
-    private Vector3 startSwipePosition;
-    private Vector3 endSwipePosition;
+    private Vector3 _startSwipePosition;
+    private Vector3 _endSwipePosition;
     // (1, 0) = right, (-1, 0) = left
     // (0, 1) = up, (0, -1) = down
-    private Vector2Int direction;
+    private Vector2Int _direction;
 
-    private bool isSwiping;
-    private bool didSwipe;
-    private const float minSwipeDistance = 50f;
+    private bool _isSwiping;
+    private bool _didSwipe;
+    private const float _minSwipeDistance = 50f;
 
     // Input time for RhythmController
     public float InputTime { get; private set; }
@@ -44,25 +44,25 @@ public class TileBoard : MonoBehaviour
     public bool InputLock { get; private set; }
     // TMGlobal = TimeManager from RhythmController. 
     // Initializes in RController
-    public TimeManager TMGlobal { get; set; }
+    public TimeManager TMGlobal { get; private set; }
     // SFX Clik of a Note
-    public AudioSource sfxClickNote;
-    private bool shouldPlay;
+    [SerializeField] private AudioSource _sfxClickNote;
+    private bool _shouldPlay;
 
     // Current grid of this board, children
-    private TileGrid grid;
+    private TileGrid _grid;
     // List of all tiles
-    private List<Tile> tiles;
+    private List<Tile> _tiles;
     // Is input available?
     public bool IsWaiting { get; private set; }
     //private bool lastInputCorrect;
     //private float globalElapsedTime;
     // How much to wait before another input?
-    private const float waitDuration = 0.1f;
-    private int numberOfTiles;
+    private const float WAIT_DURATION = 0.1f;
+    private int _numberOfTiles;
 
     // Rotation
-    // EXPERIMENTAL. Doesn't work properly. Have to redo the way board moves on slide
+    // EXPERIMENTAL. Doesn't work properly. Have to work on the way board moves on slide
     //private bool isBoardMoving = false;
     //private const float boardMoveDuration = 0.1f;
     //private Vector3 boardMoveOffset = new Vector3(0f, 5f, 0f);
@@ -76,27 +76,27 @@ public class TileBoard : MonoBehaviour
     private void InitializeVariables()
     {
         GameOver = false;
-        numberOfTiles = tileStates.Numbers.Count;
+        _numberOfTiles = _tileStates.Numbers.Count;
         IsWaiting = false;
         InputLock = false;
         InputTime = 0f;
         NumberOfMerges = 0;
         CurrentMovePoints = 0;
-        isSwiping = false;
-        didSwipe = false;
-        direction.x = 0;
-        direction.y = 0;
+        _isSwiping = false;
+        _didSwipe = false;
+        _direction.x = 0;
+        _direction.y = 0;
         if (PlayerPrefs.GetString("SFXClickNote") == "On")
         {
-            shouldPlay = true;
+            _shouldPlay = true;
         }
         else
         {
-            shouldPlay = false;
+            _shouldPlay = false;
         }
 
-        grid = GetComponentInChildren<TileGrid>();
-        tiles = new List<Tile>(numberOfTiles);
+        _grid = GetComponentInChildren<TileGrid>();
+        _tiles = new List<Tile>(_numberOfTiles);
     }
 
     private void Update()
@@ -104,11 +104,11 @@ public class TileBoard : MonoBehaviour
         // If lock is activated (pause menu)
         if (InputLock)
         {
-            if (isSwiping || didSwipe || direction != Vector2Int.zero)
+            if (_isSwiping || _didSwipe || _direction != Vector2Int.zero)
             {
-                isSwiping = false;
-                didSwipe = false;
-                direction = Vector2Int.zero;
+                _isSwiping = false;
+                _didSwipe = false;
+                _direction = Vector2Int.zero;
             }
             return;
         }
@@ -116,19 +116,19 @@ public class TileBoard : MonoBehaviour
         // Swipes Logic
         if (Input.GetMouseButtonDown(0))
         {
-            isSwiping = true;
-            startSwipePosition = Input.mousePosition;
+            _isSwiping = true;
+            _startSwipePosition = Input.mousePosition;
         }
-        else if (Input.GetMouseButtonUp(0) && isSwiping)
+        else if (Input.GetMouseButtonUp(0) && _isSwiping)
         {
-            endSwipePosition = Input.mousePosition;
-            isSwiping = false;
+            _endSwipePosition = Input.mousePosition;
+            _isSwiping = false;
 
             CheckMouseInput();
         }
         else
         {
-            direction = Vector2Int.zero;
+            _direction = Vector2Int.zero;
         }
 
         //globalElapsedTime += Time.deltaTime;
@@ -137,46 +137,46 @@ public class TileBoard : MonoBehaviour
         // Make the default ones on WASD and Arrows
         if (!IsWaiting) // && !isBoardMoving)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (didSwipe && direction.y == 1))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (_didSwipe && _direction.y == 1))
             {
                 MoveTiles(Vector2Int.up, 0, 1, 1, 1);
             }
-            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || (didSwipe && direction.y == -1))
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || (_didSwipe && _direction.y == -1))
             {
-                MoveTiles(Vector2Int.down, 0, 1, grid.height - 2, -1);
+                MoveTiles(Vector2Int.down, 0, 1, _grid.Height - 2, -1);
             }
-            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || (didSwipe && direction.x == -1))
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || (_didSwipe && _direction.x == -1))
             {
                 MoveTiles(Vector2Int.left, 1, 1, 0, 1);
             }
-            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || (didSwipe && direction.x == 1))
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || (_didSwipe && _direction.x == 1))
             {
-                MoveTiles(Vector2Int.right, grid.width - 2, -1, 0, 1);
+                MoveTiles(Vector2Int.right, _grid.Width - 2, -1, 0, 1);
             }
         }
     }
     // Clear this board before initializing tiles
     public void ClearBoard()
     {
-        foreach (var cell in grid.cells)
+        foreach (var cell in _grid.Cells)
         {
-            cell.tile = null;
+            cell.SetTile(null);
         }
 
-        foreach (var tile in tiles)
+        foreach (var tile in _tiles)
         {
             Destroy(tile.gameObject);
         }
 
-        tiles.Clear();
+        _tiles.Clear();
     }
     // Create default tile
     public void CreateTile()
     {
-        Tile tile = Instantiate(tilePrefab, grid.transform);
-        tile.SetState(tileStates.BackgroundColors[0], tileStates.TextColors[0], tileStates.Numbers[0]);
-        tile.Spawn(grid.GetRandomEmptyCell());
-        tiles.Add(tile);
+        Tile tile = Instantiate(_tilePrefab, _grid.transform);
+        tile.SetState(_tileStates.BackgroundColors[0], _tileStates.TextColors[0], _tileStates.Numbers[0]);
+        tile.Spawn(_grid.GetRandomEmptyCell());
+        _tiles.Add(tile);
     }
     // When got input, move all tiles to this direction
     private void MoveTiles(Vector2Int direction,
@@ -189,23 +189,23 @@ public class TileBoard : MonoBehaviour
         NumberOfMerges = 0;
         CurrentMovePoints = 0;
 
-        for (int x = startX; x >= 0 && x < grid.width; x += incrementX)
+        for (int x = startX; x >= 0 && x < _grid.Width; x += incrementX)
         {
-            for (int y = startY; y >= 0 && y < grid.height; y += incrementY)
+            for (int y = startY; y >= 0 && y < _grid.Height; y += incrementY)
             {
-                TileCell cell = grid.GetCell(x, y);
-                if (cell.isOccupied)
+                TileCell cell = _grid.GetCell(x, y);
+                if (cell.IsOccupied)
                 {
-                    stateChanged |= MoveTile(cell.tile, direction);
+                    stateChanged |= MoveTile(cell.ThisTile, direction);
                 }
             }
         }
 
         if (stateChanged)
         {
-            if (shouldPlay)
+            if (_shouldPlay)
             {
-                sfxClickNote.Play();
+                _sfxClickNote.Play();
             }
             //lastInputCorrect = true;
             InputTime = TMGlobal.GetGlobalTime();
@@ -219,23 +219,23 @@ public class TileBoard : MonoBehaviour
     {
         // Move Tile while there still is not occupied cell
         TileCell newCell = null;
-        TileCell adjacent = grid.GetAdjacentCell(tile.cell, direction);
+        TileCell adjacent = _grid.GetAdjacentCell(tile.Cell, direction);
 
         while (adjacent != null)
         {
             // Merge Tiles
-            if (adjacent.isOccupied)
+            if (adjacent.IsOccupied)
             {
-                if (CanMerge(tile, adjacent.tile))
+                if (CanMerge(tile, adjacent.ThisTile))
                 {
-                    Merge(tile, adjacent.tile);
+                    Merge(tile, adjacent.ThisTile);
                     return true;
                 }
                 break;
             }
 
             newCell = adjacent;
-            adjacent = grid.GetAdjacentCell(adjacent, direction);
+            adjacent = _grid.GetAdjacentCell(adjacent, direction);
         }
 
         if (newCell != null)
@@ -249,13 +249,13 @@ public class TileBoard : MonoBehaviour
     // Can we merge this two tiles?
     private bool CanMerge(Tile a, Tile b)
     {
-        return a.number == b.number && !b.isLocked;
+        return a.Number == b.Number && !b.IsLocked;
     }
-    // Merging of two tiles
+    // TODO: REWRITE THE LOGIC
     private void Merge(Tile a, Tile b)
     {
-        tiles.Remove(a);
-        a.Merge(b.cell);
+        _tiles.Remove(a);
+        a.Merge(b.Cell);
 
         //int index = Mathf.Clamp(GetIndexOfTileState(b.state) + 1, 0, tileStates.Length - 1);
         // index of a current tile state
@@ -266,18 +266,18 @@ public class TileBoard : MonoBehaviour
         // change colors
         Color bgColor, tColor;
 
-        if (index >= numberOfTiles)
+        if (index >= _numberOfTiles)
         {
-            number = b.number * 2;
-            bgColor = tileStates.BackgroundColors[index % numberOfTiles];
-            tColor = b.textColor;
+            number = b.Number * 2;
+            bgColor = _tileStates.BackgroundColors[index % _numberOfTiles];
+            tColor = b.TextColor;
             //Debug.Log($"{number}, {bgColor}, {tColor}");
         }
         else
         {
-            number = tileStates.Numbers[index];
-            bgColor = tileStates.BackgroundColors[index];
-            tColor = tileStates.TextColors[index];
+            number = _tileStates.Numbers[index];
+            bgColor = _tileStates.BackgroundColors[index];
+            tColor = _tileStates.TextColors[index];
         }
 
         //int number = b.number * 2;
@@ -287,24 +287,11 @@ public class TileBoard : MonoBehaviour
         CurrentMovePoints += number;
         //CurrentPoints += number;
     }
-    // Get current tile state
-    //private int GetIndexOfTileState(TileState state)
-    //{
-    //    for (int i = 0; i < tileStates.Length; i++)
-    //    {
-    //        if (state == tileStates[i])
-    //        {
-    //            return i;
-    //        }
-    //    }
-
-    //    return -1;
-    //}
     // Using the fact that numbers from tiles are only powers of two
     private int GetIndexOfTileState(Tile t)
     {
         int index = 0;
-        int number = t.number;
+        int number = t.Number;
 
         while (number > 2)
         {
@@ -313,6 +300,117 @@ public class TileBoard : MonoBehaviour
         }
 
         return index;
+    }
+
+    // Coroutine for stopping input and creating new tile
+    private IEnumerator WaitForChanges()
+    {
+        IsWaiting = true;
+        yield return new WaitForSeconds(WAIT_DURATION);
+
+        IsWaiting = false;
+
+        foreach (var tile in _tiles)
+        {
+            tile.SetLocked(false);
+        }
+
+        if (_tiles.Count != _grid.Size)
+        {
+            CreateTile();
+        }
+
+        if (CheckForGameOver())
+        {
+            GameOver = true;
+        }
+    }
+    // Is it game over?
+    private bool CheckForGameOver()
+    {
+        if (_tiles.Count != _grid.Size)
+        {
+            return false;
+        }
+
+        foreach (var tile in _tiles)
+        {
+            TileCell up = _grid.GetAdjacentCell(tile.Cell, Vector2Int.up);
+            TileCell down = _grid.GetAdjacentCell(tile.Cell, Vector2Int.down);
+            TileCell left = _grid.GetAdjacentCell(tile.Cell, Vector2Int.left);
+            TileCell right = _grid.GetAdjacentCell(tile.Cell, Vector2Int.right);
+
+            if (up != null && CanMerge(tile, up.ThisTile))
+            {
+                return false;
+            }
+
+            if (down != null && CanMerge(tile, down.ThisTile))
+            {
+                return false;
+            }
+
+            if (left != null && CanMerge(tile, left.ThisTile))
+            {
+                return false;
+            }
+
+            if (right != null && CanMerge(tile, right.ThisTile))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public void SetCurrentPoints(int points)
+    {
+        CurrentPoints = points;
+    }
+    public void SetInputLock(bool state)
+    {
+        InputLock = state;
+    }
+
+    private void CheckMouseInput()
+    {
+        _direction = Vector2Int.zero;
+        Vector3 swipeDirection = _endSwipePosition - _startSwipePosition;
+
+        float swipeHorizontal = Mathf.Abs(swipeDirection.x);
+        float swipeVertical = Mathf.Abs(swipeDirection.y);
+
+        if (swipeHorizontal > _minSwipeDistance || swipeVertical > _minSwipeDistance)
+        {
+            _didSwipe = true;
+            if (swipeHorizontal > swipeVertical)
+            {
+                if (swipeDirection.x > 0)
+                {
+                    _direction.x = 1;
+                }
+                else
+                {
+                    _direction.x = -1;
+                }
+            }
+            else
+            {
+                if (swipeDirection.y > 0)
+                {
+                    _direction.y = 1;
+                }
+                else
+                {
+                    _direction.y = -1;
+                }
+            }
+        }
+    }
+
+    public void SetTimeManager(TimeManager tm)
+    {
+        TMGlobal = tm;
     }
 
     // EXPERIMENTAL. Does not work properly
@@ -355,110 +453,4 @@ public class TileBoard : MonoBehaviour
 
     //    isBoardMoving = false;
     //}
-
-    // Coroutine for stopping input and creating new tile
-    private IEnumerator WaitForChanges()
-    {
-        IsWaiting = true;
-        yield return new WaitForSeconds(waitDuration);
-
-        IsWaiting = false;
-
-        foreach (var tile in tiles)
-        {
-            tile.isLocked = false;
-        }
-
-        if (tiles.Count != grid.size)
-        {
-            CreateTile();
-        }
-
-        if (CheckForGameOver())
-        {
-            GameOver = true;
-        }
-    }
-    // Is it game over?
-    private bool CheckForGameOver()
-    {
-        if (tiles.Count != grid.size)
-        {
-            return false;
-        }
-
-        foreach (var tile in tiles)
-        {
-            TileCell up = grid.GetAdjacentCell(tile.cell, Vector2Int.up);
-            TileCell down = grid.GetAdjacentCell(tile.cell, Vector2Int.down);
-            TileCell left = grid.GetAdjacentCell(tile.cell, Vector2Int.left);
-            TileCell right = grid.GetAdjacentCell(tile.cell, Vector2Int.right);
-
-            if (up != null && CanMerge(tile, up.tile))
-            {
-                return false;
-            }
-
-            if (down != null && CanMerge(tile, down.tile))
-            {
-                return false;
-            }
-
-            if (left != null && CanMerge(tile, left.tile))
-            {
-                return false;
-            }
-
-            if (right != null && CanMerge(tile, right.tile))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    public void SetCurrentPoints(int points)
-    {
-        CurrentPoints = points;
-    }
-    public void SetInputLock(bool state)
-    {
-        InputLock = state;
-    }
-
-    private void CheckMouseInput()
-    {
-        direction = Vector2Int.zero;
-        Vector3 swipeDirection = endSwipePosition - startSwipePosition;
-
-        float swipeHorizontal = Mathf.Abs(swipeDirection.x);
-        float swipeVertical = Mathf.Abs(swipeDirection.y);
-
-        if (swipeHorizontal > minSwipeDistance || swipeVertical > minSwipeDistance)
-        {
-            didSwipe = true;
-            if (swipeHorizontal > swipeVertical)
-            {
-                if (swipeDirection.x > 0)
-                {
-                    direction.x = 1;
-                }
-                else
-                {
-                    direction.x = -1;
-                }
-            }
-            else
-            {
-                if (swipeDirection.y > 0)
-                {
-                    direction.y = 1;
-                }
-                else
-                {
-                    direction.y = -1;
-                }
-            }
-        }
-    }
 }
