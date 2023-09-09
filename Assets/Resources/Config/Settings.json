@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "audio": {
+      "outputdevice": "default",
+      "master": 1,
+      "music": 1,
+      "sfx": 1
+    },
+    "graphics": {
+      "width": 1920,
+      "height": 1080,
+      "fullscreen": false,
+      "borderless": true
+    },
+    "controls": {
+      "keyboard": true,
+      "gamepad": false
+    }
+  }
+}

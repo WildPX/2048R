@@ -1,0 +1,17 @@
+{
+  "name": "P R E S I D E N A T O R",
+  "artistName": "Test",
+  "musicData": {
+    "time": 15,
+    "tempo": 60,
+    "sampleRate": 44100,
+    "hopLength": 256,
+    "beatFrames": [
+      3,
+      6,
+      9
+    ]
+  },
+  "backgroundImagePath": "Maps/Test/TestBackground",
+  "audioPath": "Maps/Test/TestClip"
+}

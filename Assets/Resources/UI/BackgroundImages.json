@@ -1,0 +1,24 @@
+{
+  "backgroundTheme": [
+    {
+      "name": "Image1",
+      "imagePath": "UI/Pictures/Image1"
+    },
+    {
+      "name": "Image2",
+      "imagePath": "UI/Pictures/Image2"
+    },
+    {
+      "name": "Image3",
+      "imagePath": "UI/Pictures/Image3"
+    },
+    {
+      "name": "Image4",
+      "imagePath": "UI/Pictures/Image4"
+    },
+    {
+      "name": "Image5",
+      "imagePath": "UI/Pictures/Image5"
+    }
+  ]
+}
